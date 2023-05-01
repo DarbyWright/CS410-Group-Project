@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
             return;
-        s.source.Play();
+        //s.source.Play();
 
         /*Sound sound = null;
         foreach (Sound s in sounds) {
@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        Play("Mus_Level_2");
+        //Play("Mus_Level_2");
     }
 
     // Update is called once per frame
