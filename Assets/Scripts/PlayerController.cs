@@ -45,6 +45,10 @@ public class PlayerController : MonoBehaviour {
     float targetSpeed = 0f;
     float moveSpeed   = 0f;
     float minSpeedDif = 0.03125f; // 1/32
+    
+    // New Code From Darby
+    public Vector2 turn;
+    public float rotationSpeed = 0.5f;
 
     // Accleration
     float acc       = 0.1f;
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour {
     int jumpBufferMax   = 2 * 60;
     int coyoteTime      = 0;
     int coyoteTimeMax   = 2 * 60;
-    int numJumps = 0;
+    int numJumps = 0;  
     int maxJumps = 2;
 
     // Dashing
@@ -95,6 +99,8 @@ public class PlayerController : MonoBehaviour {
 
     // Initialize
     public void Start() {
+        // NEW
+        Cursor.lockState = CursorLockMode.Locked;
 
         // Get game manager for global variables
         gameManager = FindObjectOfType<GameManager>();
@@ -298,9 +304,21 @@ public class PlayerController : MonoBehaviour {
         if (gliding)
             gravityScale = glideGrav;
 
-        // Move laterally
-        moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-        transform.position += moveDirection * moveSpeed * 0.03125f; // 1/32 for cleaner speed variable numbers
+
+        // Player Movement is now in relation to the camera position instead of world space
+        var camera = Camera.main;
+        var forward = camera.transform.forward;
+        var right = camera.transform.right;
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+        var desiredMovementDirection = forward * verticalInput + right * horizontalInput;
+        transform.Translate(desiredMovementDirection * moveSpeed * 0.03125f);
+
+        // Move laterally <-- Ths was the world space implementation
+        // moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        // transform.position += moveDirection * moveSpeed * 0.03125f; // 1/32 for cleaner speed variable numbers
 
         // If the player can jump, pressed jump, and (was just on the ground or can double jumping)
         if (jumping == false && jumpBuffer > 0 && (coyoteTime > 0 || (canDoubleJump && numJumps > 0)))
