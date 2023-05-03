@@ -1077,12 +1077,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655362045}
   m_CullTransparentMesh: 1
---- !u!1 &664158079 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5127444961358498132, guid: db1e59dfc9102487c8493a55bdd2f189,
-    type: 3}
-  m_PrefabInstance: {fileID: 5127444960713766443}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &664158084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5127444961358498223, guid: db1e59dfc9102487c8493a55bdd2f189,
@@ -2330,8 +2324,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998934576}
-  m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 2.91, z: -7.71}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2340,7 +2334,7 @@ Transform:
   - {fileID: 472342691}
   m_Father: {fileID: 2087411943}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1998934581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2353,10 +2347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87166c07cca4b4050b78d7b8a4de118a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 664158079}
+  target: {fileID: 2087411942}
   RotateAroundPlayer: 1
-  SmoothFactor: 0.159
-  LookAtPlayer: 1
+  SmoothFactor: 0.16
+  LookAtPlayer: 0
   RotationSpeed: 3
 --- !u!114 &1998934582
 MonoBehaviour:
@@ -2613,7 +2607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087411942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.782, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
