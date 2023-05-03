@@ -380,19 +380,26 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("ItemDoubleJump")) {
             gameManager.GotDoubleJump();
             canDoubleJump = true;
-            Destroy(other.gameObject);
+            // Temperarily just set to inactive to make the hovering text work
+            other.gameObject.SetActive(false);
+            // Destroy(other.gameObject);
+
         }
         // Dash item
         if (other.gameObject.CompareTag("ItemDash")) {
             gameManager.GotDash();
             canDash = true;
-            Destroy(other.gameObject);
+            // Temperarily just set to inactive to make the hovering text work
+            other.gameObject.SetActive(false);
+            // Destroy(other.gameObject);
         }
         // Glide item
         if (other.gameObject.CompareTag("ItemGlide")) {
             gameManager.GotGlide();
             canGlide = true;
-            Destroy(other.gameObject);
+            // Temperarily just set to inactive to make the hovering text work
+            other.gameObject.SetActive(false);
+            // Destroy(other.gameObject);
         }
 
         // Checkpoints
