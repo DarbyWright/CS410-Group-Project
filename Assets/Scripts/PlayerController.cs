@@ -391,7 +391,7 @@ public class PlayerController : MonoBehaviour {
         // Glide item
         if (other.gameObject.CompareTag("ItemGlide")) {
             gameManager.GotGlide();
-            canDash = true;
+            canGlide = true;
             Destroy(other.gameObject);
         }
 
