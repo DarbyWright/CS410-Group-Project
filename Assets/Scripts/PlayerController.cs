@@ -313,8 +313,8 @@ public class PlayerController : MonoBehaviour {
         right.y = 0f;
         forward.Normalize();
         right.Normalize();
-        var desiredMovementDirection = forward * verticalInput + right * horizontalInput;
-        transform.Translate(desiredMovementDirection * moveSpeed * 0.03125f);
+        moveDirection = forward * verticalInput + right * horizontalInput;
+        transform.Translate(moveDirection * moveSpeed * 0.03125f);
 
         // Move laterally <-- Ths was the world space implementation
         // moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
