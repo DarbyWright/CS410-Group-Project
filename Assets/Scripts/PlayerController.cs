@@ -412,6 +412,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //If a projectile hits you die
+        if (collision.gameObject.CompareTag("EnemyProjectile"))
+        {
+            Die();
+        }
+    }
 
     // Update the player's respawn position
     void SetCheckPoint(float x, float y, float z) {

@@ -8,6 +8,7 @@ TagManager:
   - ItemDash
   - ItemGlide
   - Checkpoint
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - EnemyProjectile
   - 
   - 
   - 
