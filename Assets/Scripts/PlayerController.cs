@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour {
     
     // New Code From Darby
     public Vector2 turn;
-    public float rotationSpeed = 0.5f;
+    public float rotationSpeed = 0.1f;
 
     // Accleration
     float acc       = 0.1f;
@@ -62,15 +62,15 @@ public class PlayerController : MonoBehaviour {
     //float airSpeed  = 1f;
 
     // Jumping
-    bool jumping        = false;
+    bool didDoubleJump  = false;
     float jumpStrength  = 24f;
-    float jumpSpeedCut  = 0.5f;
+    //float jumpSpeedCut  = 0.5f;
     int jumpBuffer      = 0;
     int jumpBufferMax   = 2 * 60;
     int coyoteTime      = 0;
     int coyoteTimeMax   = 2 * 60;
-    int numJumps = 0;  
-    int maxJumps = 2;
+    //int numJumps = 0;  
+    //int maxJumps = 1;
 
     // Dashing
     bool dashing        = false;
@@ -95,10 +95,15 @@ public class PlayerController : MonoBehaviour {
     float deathPlane = -20f;
     Vector3 respawnPos;
 
+    //Animation variables
+    public Animator animator;
+
+
     /* * * * * * * */
 
     // Initialize
-    public void Start() {
+    public void Awake() {
+        
         // NEW
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -127,6 +132,8 @@ public class PlayerController : MonoBehaviour {
     // Every frame - start input stuff
     public void Update() {
 
+        updateAnimation();
+
         // Reduce the jump time window
         if (jumpBuffer > 0) jumpBuffer--;
         if (coyoteTime > 0) coyoteTime--;
@@ -142,8 +149,9 @@ public class PlayerController : MonoBehaviour {
         // Player can jump if on top of objects on the "Ground" layer (or if jumped right after leaving ground)
         onGround = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayerMask);
         if (onGround) {
-            jumping = false;
-            numJumps = maxJumps;
+            gliding = false;
+            didDoubleJump = false;
+            //numJumps = maxJumps;
             coyoteTime = coyoteTimeMax;
         }
 
@@ -171,7 +179,6 @@ public class PlayerController : MonoBehaviour {
         else
             gravityScale = 0f;
 
-            //
 
         // UI for debug
         UI_Debug.text = "- DEBUG -\n";
@@ -190,27 +197,23 @@ public class PlayerController : MonoBehaviour {
         UI_Debug.text += "dashCooldown: " + dashCooldown.ToString() + "\n";
     }
 
+    void updateAnimation()
+    {
+        if(horizontalInput == 0 && verticalInput == 0)
+        {
+            animator.SetFloat("currentSpeed", moveSpeed - walkSpeed);
+        }
+        else
+        {
+            animator.SetFloat("currentSpeed", moveSpeed);
+        }
+        
+    }
 
     // Player input - use vars for keys for potential custom button mapping
     void GetInput() {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-
-        // Failed attempt to implement the player turning right and left
-
-        /*
-        float angle = 0f;
-        float angleIncr = 5f;
-        if (Input.GetKey(KeyCode.V))
-            angle += angleIncr;
-        if (Input.GetKey(KeyCode.C))
-            angle -= angleIncr;
-
-        Quaternion rotate = transform.rotation;
-        myRB.freezeRotation = false;
-        transform.rotation = Quaternion.Euler(rotate.eulerAngles.x, rotate.eulerAngles.y + angle, rotate.eulerAngles.z);
-        myRB.freezeRotation = true;
-        */
 
         // Walking
         targetSpeed = walkSpeed;
@@ -221,14 +224,16 @@ public class PlayerController : MonoBehaviour {
 
         // Jumping
         if (Input.GetKeyDown(jumpKey) || Input.GetButtonDown("Jump"))
-            jumpBuffer = jumpBufferMax;
+            Jump();
+            
 
+        //Old jump system 
         // When release jump, reduce upward speed
-        if (Input.GetKeyUp(jumpKey) || Input.GetButtonUp("Jump")) {
-            jumping = false;
-            Vector3 vel = myRB.velocity;
-            myRB.velocity = new Vector3(vel.x, jumpSpeedCut * vel.y, vel.z);
-        }
+        //if (Input.GetKeyUp(jumpKey) || Input.GetButtonUp("Jump")) {
+          //  jumping = false;
+            //Vector3 vel = myRB.velocity;
+            //myRB.velocity = new Vector3(vel.x, jumpSpeedCut * vel.y, vel.z);
+        //}
 
         // Dashing
         if (Input.GetKeyDown(dashKey) && canDash && dashCooldown == 0)
@@ -304,6 +309,8 @@ public class PlayerController : MonoBehaviour {
         if (gliding)
             gravityScale = glideGrav;
 
+            
+
 
         // Player Movement is now in relation to the camera position instead of world space
         var camera = Camera.main;
@@ -314,42 +321,54 @@ public class PlayerController : MonoBehaviour {
         forward.Normalize();
         right.Normalize();
         moveDirection = forward * verticalInput + right * horizontalInput;
-        transform.Translate(moveDirection * moveSpeed * 0.03125f);
 
-        // Move laterally <-- Ths was the world space implementation
-        // moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-        // transform.position += moveDirection * moveSpeed * 0.03125f; // 1/32 for cleaner speed variable numbers
+        //Get direction camera is facing
+        Quaternion cameraDirection = Quaternion.LookRotation(forward);
 
-        // If the player can jump, pressed jump, and (was just on the ground or can double jumping)
-        if (jumping == false && jumpBuffer > 0 && (coyoteTime > 0 || (canDoubleJump && numJumps > 0)))
-            Jump();
+        //Set player rotation to match, have tried slowly rotating but it always seems to cause tearing because of how fast you can look around
+        transform.rotation = cameraDirection;
+
+        transform.position += (moveDirection * moveSpeed * Time.deltaTime);
 
     }
 
 
     // Jump motion and sound
     void Jump() {
-        jumping = true;
 
-        // Set gravity to start of jump arc
-        gravityScale = jumpGrav;
+        if(onGround || (!didDoubleJump && canDoubleJump))
+        {
+            // Set gravity to start of jump arc
+            gravityScale = jumpGrav;
 
-        // Apply force
-        Vector3 vel = myRB.velocity;
-        myRB.velocity = new Vector3(vel.x, 0f, vel.z);
-        myRB.AddForce(jumpStrength * Vector3.up, ForceMode.Impulse);
+            // Apply force
+            Vector3 vel = myRB.velocity;
+            myRB.velocity = new Vector3(vel.x, 0f, vel.z);
+            myRB.AddForce(jumpStrength * Vector3.up, ForceMode.Impulse);
 
-        // Jump sound
-        AudioManager audioManager = FindObjectOfType<AudioManager>();
-        if (audioManager != null) {
-            if (numJumps <= 1)
-                audioManager.Play("SFX_PlayerJump");
-            else
-                audioManager.Play("SFX_PlayerDoubleJump");
+            // Jump sound
+            AudioManager audioManager = FindObjectOfType<AudioManager>();
+            if (audioManager != null)
+            {
+                if (!onGround && canDoubleJump)
+                {
+                    audioManager.Play("SFX_PlayerDoubleJump");
+                    animator.CrossFade("DoubleJump", 0);
+                    didDoubleJump = true;
+                }
+                else
+                {
+                    audioManager.Play("SFX_PlayerJump");
+                    animator.CrossFade("StartJump", 0);
+                }
+
+            }
         }
 
         // If double jump, can't again
-        numJumps--;
+        //numJumps--;
+
+
     }
 
 
@@ -380,6 +399,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("ItemDoubleJump")) {
             gameManager.GotDoubleJump();
             canDoubleJump = true;
+            //maxJumps = 2;
             // Temperarily just set to inactive to make the hovering text work
             other.gameObject.SetActive(false);
             // Destroy(other.gameObject);
@@ -436,10 +456,10 @@ public class PlayerController : MonoBehaviour {
         // Reset vars
         moveSpeed = 0f;
         targetSpeed = 0f;
-        jumping = false;
+        didDoubleJump = false;
         jumpBuffer = 0;
         coyoteTime = 0;
-        numJumps = 0;
+        //numJumps = 0;
         dashing = false;
         dashInit = 0;
         dashCooldown = 0;

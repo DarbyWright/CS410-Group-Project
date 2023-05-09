@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -50,6 +51,7 @@ public class BirdMovement : MonoBehaviour
                 DropRock();
             }
         }
+
 
         // Calculate the direction to the target waypoint.
         Vector3 directionToTarget = (waypoints[targetWaypointIndex].point.transform.position - transform.position).normalized;
