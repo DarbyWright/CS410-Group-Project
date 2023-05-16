@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
     GameManager gameManager;
 
     // UI for debug
-    public TextMeshProUGUI UI_Debug;
+    //public TextMeshProUGUI UI_Debug;
 
     // Rigidbody
     Rigidbody myRB;
@@ -35,6 +35,17 @@ public class PlayerController : MonoBehaviour {
     // Ground check
     LayerMask groundLayerMask;
     bool onGround = false;
+    float groundCheckDistance = 1f;
+    //Adds raycasts slightly in each direction around the player to help with uneven environments
+    //Probably will not be necessary if we switch to a controller
+    private static readonly Vector3[] raycastPositions = new Vector3[]
+    {
+    new Vector3(0.5f, 0f, 0f),
+    new Vector3(-0.5f, 0f, 0f),
+    new Vector3(0f, 0f, 0.5f),
+    new Vector3(0f, 0f, -0.5f),
+    Vector3.zero 
+    };
 
     // Gravity
     static float globalGravity  = -9.81f;
@@ -57,20 +68,14 @@ public class PlayerController : MonoBehaviour {
     float airFric   = 0.94f;
 
     // Walking and running
-    float walkSpeed = 6f;
-    float runSpeed  = 12f;
+    float walkSpeed = 3f;
+    float runSpeed  = 6f;
     //float airSpeed  = 1f;
 
     // Jumping
     bool didDoubleJump  = false;
     float jumpStrength  = 24f;
-    //float jumpSpeedCut  = 0.5f;
-    int jumpBuffer      = 0;
-    int jumpBufferMax   = 2 * 60;
-    int coyoteTime      = 0;
-    int coyoteTimeMax   = 2 * 60;
-    //int numJumps = 0;  
-    //int maxJumps = 1;
+
 
     // Dashing
     bool dashing        = false;
@@ -92,11 +97,13 @@ public class PlayerController : MonoBehaviour {
     float glideGrav     = 0.5f;
 
     // Death and respawn location
-    float deathPlane = -20f;
+    float deathPlane = -30f;
     Vector3 respawnPos;
 
     //Animation variables
     public Animator animator;
+
+
 
 
     /* * * * * * * */
@@ -132,11 +139,7 @@ public class PlayerController : MonoBehaviour {
     // Every frame - start input stuff
     public void Update() {
 
-        updateAnimation();
-
-        // Reduce the jump time window
-        if (jumpBuffer > 0) jumpBuffer--;
-        if (coyoteTime > 0) coyoteTime--;
+        updateMovementAnimation();
 
         // Freeze right before dash
         if (dashInit > 0) dashInit--;
@@ -146,13 +149,11 @@ public class PlayerController : MonoBehaviour {
         if (dashCooldown > 0) dashCooldown--;
         else dashing = false;
 
-        // Player can jump if on top of objects on the "Ground" layer (or if jumped right after leaving ground)
-        onGround = Physics.Raycast(transform.position, Vector3.down, 1f, groundLayerMask);
+        onGround = Grounded();
+        
         if (onGround) {
             gliding = false;
             didDoubleJump = false;
-            //numJumps = maxJumps;
-            coyoteTime = coyoteTimeMax;
         }
 
         // Get input and update movement - player has no control while dash begins
@@ -163,7 +164,6 @@ public class PlayerController : MonoBehaviour {
         if (transform.position.y < deathPlane)
             Die();
     }
-
 
     // Every frame, but after physics calculations - actual motion
     public void FixedUpdate() {
@@ -181,6 +181,8 @@ public class PlayerController : MonoBehaviour {
 
 
         // UI for debug
+        //Temp commented out to prevent the need for Canvas in every scene for now
+        /*
         UI_Debug.text = "- DEBUG -\n";
         UI_Debug.text += "target speed\n";
         UI_Debug.text += "  X: " + (moveDirection.x * targetSpeed).ToString() + "\n";
@@ -195,10 +197,12 @@ public class PlayerController : MonoBehaviour {
         UI_Debug.text += "coyoteTime: " + coyoteTime.ToString() + "\n";
         UI_Debug.text += "dashInit: " + dashInit.ToString() + "\n";
         UI_Debug.text += "dashCooldown: " + dashCooldown.ToString() + "\n";
+        */
     }
 
-    void updateAnimation()
+    void updateMovementAnimation()
     {
+        //New code from Jesse will look to improve this but with the correct speed setting makes it easy to enable the idle animation
         if(horizontalInput == 0 && verticalInput == 0)
         {
             animator.SetFloat("currentSpeed", moveSpeed - walkSpeed);
@@ -209,6 +213,7 @@ public class PlayerController : MonoBehaviour {
         }
         
     }
+
 
     // Player input - use vars for keys for potential custom button mapping
     void GetInput() {
@@ -225,15 +230,6 @@ public class PlayerController : MonoBehaviour {
         // Jumping
         if (Input.GetKeyDown(jumpKey) || Input.GetButtonDown("Jump"))
             Jump();
-            
-
-        //Old jump system 
-        // When release jump, reduce upward speed
-        //if (Input.GetKeyUp(jumpKey) || Input.GetButtonUp("Jump")) {
-          //  jumping = false;
-            //Vector3 vel = myRB.velocity;
-            //myRB.velocity = new Vector3(vel.x, jumpSpeedCut * vel.y, vel.z);
-        //}
 
         // Dashing
         if (Input.GetKeyDown(dashKey) && canDash && dashCooldown == 0)
@@ -327,8 +323,8 @@ public class PlayerController : MonoBehaviour {
 
         //Set player rotation to match, have tried slowly rotating but it always seems to cause tearing because of how fast you can look around
         transform.rotation = cameraDirection;
-
         transform.position += (moveDirection * moveSpeed * Time.deltaTime);
+
 
     }
 
@@ -345,29 +341,23 @@ public class PlayerController : MonoBehaviour {
             Vector3 vel = myRB.velocity;
             myRB.velocity = new Vector3(vel.x, 0f, vel.z);
             myRB.AddForce(jumpStrength * Vector3.up, ForceMode.Impulse);
-
             // Jump sound
             AudioManager audioManager = FindObjectOfType<AudioManager>();
-            if (audioManager != null)
+
+            if (!onGround && canDoubleJump)
             {
-                if (!onGround && canDoubleJump)
-                {
-                    audioManager.Play("SFX_PlayerDoubleJump");
-                    animator.CrossFade("DoubleJump", 0);
-                    didDoubleJump = true;
-                }
-                else
-                {
-                    audioManager.Play("SFX_PlayerJump");
-                    animator.CrossFade("StartJump", 0);
-                }
-
+                //audioManager.Play("SFX_PlayerDoubleJump");
+                animator.CrossFade("DoubleJump", 0);
+                didDoubleJump = true;
             }
+            else
+            {
+                //audioManager.Play("SFX_PlayerJump");
+                animator.CrossFade("StartJump", 0);
+            }
+
+
         }
-
-        // If double jump, can't again
-        //numJumps--;
-
 
     }
 
@@ -399,9 +389,9 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("ItemDoubleJump")) {
             gameManager.GotDoubleJump();
             canDoubleJump = true;
-            //maxJumps = 2;
             // Temperarily just set to inactive to make the hovering text work
             other.gameObject.SetActive(false);
+            SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z);
             // Destroy(other.gameObject);
 
         }
@@ -424,7 +414,7 @@ public class PlayerController : MonoBehaviour {
 
         // Checkpoints
         if (other.gameObject.CompareTag("Checkpoint")) {
-            //other.gameObject.SetActive(false);
+            other.gameObject.SetActive(false);
             float x = other.gameObject.transform.position.x;
             float y = other.gameObject.transform.position.y;
             float z = other.gameObject.transform.position.z;
@@ -432,10 +422,24 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    //New Code from Jesse, Updated groundCheck to have 5 raycasts, one in each Cardinal and then the center one still
+    bool Grounded()
+    {
+        //Check each position if one hits then early return to help performance
+        for (int i = 0; i < raycastPositions.Length; i++)
+        {
+            onGround = Physics.Raycast(transform.position + raycastPositions[i], Vector3.down, groundCheckDistance, groundLayerMask);
+            if (onGround)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        //If a projectile hits you die
-        if (collision.gameObject.CompareTag("EnemyProjectile"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("OutOfBounds"))
         {
             Die();
         }
@@ -457,9 +461,6 @@ public class PlayerController : MonoBehaviour {
         moveSpeed = 0f;
         targetSpeed = 0f;
         didDoubleJump = false;
-        jumpBuffer = 0;
-        coyoteTime = 0;
-        //numJumps = 0;
         dashing = false;
         dashInit = 0;
         dashCooldown = 0;

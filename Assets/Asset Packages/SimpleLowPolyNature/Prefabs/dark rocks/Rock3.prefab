@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64092485480772690}
   m_Layer: 0
   m_Name: Rock3
-  m_TagString: Untagged
+  m_TagString: OutOfBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126

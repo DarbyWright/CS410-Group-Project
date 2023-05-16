@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64563932090379520}
   m_Layer: 0
   m_Name: Rock12
-  m_TagString: Untagged
+  m_TagString: OutOfBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126

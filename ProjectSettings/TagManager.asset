@@ -9,6 +9,8 @@ TagManager:
   - ItemGlide
   - Checkpoint
   - EnemyProjectile
+  - OutOfBounds
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - OutOfBounds
   - EnemyProjectile
   - 
   - 
