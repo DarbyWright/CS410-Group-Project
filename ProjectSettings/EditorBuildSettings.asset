@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Demo.unity
     guid: f350523ce78ba45f68b51a2d1ef0a6bc
   - enabled: 1
+    path: Assets/Scenes/Hubworld.unity
+    guid: 2eba0d6aabb97d74b82c8e84565cdb1b
+  - enabled: 1
     path: Assets/Scenes/Level 1 (Crystal Caverns).unity
     guid: d59bb2579b2b405448e854d467101fea
   m_configObjects: {}

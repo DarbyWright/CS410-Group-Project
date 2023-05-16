@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
         {
             Quaternion camTurnAngle = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationSpeed, Vector3.up);
 
-            offset = camTurnAngle * camTurnAngle * offset;
+            offset = camTurnAngle * offset;
         }
 
         Vector3 newPos = target.transform.position + offset;
