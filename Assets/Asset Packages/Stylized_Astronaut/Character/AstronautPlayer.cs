@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace AstronautPlayer
-{
+namespace AstronautPlayer {
 
 	public class AstronautPlayer : MonoBehaviour {
 
@@ -19,15 +18,10 @@ namespace AstronautPlayer
 			anim = gameObject.GetComponentInChildren<Animator>();
 		}
 
-		void Update (){
-			if (Input.GetKey ("w")) {
-				anim.SetInteger ("AnimationPar", 1);
-			}  else {
-				anim.SetInteger ("AnimationPar", 0);
-			}
+		void Update () {
 
-			if(controller.isGrounded){
-				moveDirection = transform.forward * Input.GetAxis("Vertical") * speed;
+			if (controller.isGrounded){
+					moveDirection = transform.forward * Input.GetAxis("Vertical") * speed;
 			}
 
 			float turn = Input.GetAxis("Horizontal");

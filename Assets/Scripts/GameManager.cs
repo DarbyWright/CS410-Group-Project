@@ -4,7 +4,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour {
 
-    // GameManager persists
+    // GameManager persists across scenes
     public static GameManager instance;
 
     /*
@@ -28,16 +28,17 @@ public class GameManager : MonoBehaviour {
     // Awake is called before start - ininitialize
     void Awake() {
 
-        // Only one AudioManager at a time
-        if (instance == null)
+        // Only one GameManager at a time
+        if (instance == null) {
             instance = this;
+
+            // GameManager exists across multiple scenes
+            DontDestroyOnLoad(gameObject);
+        }
         else {
             Destroy(gameObject);
             return;
         }
-
-        // AudioManager exists across multiple scenes
-        DontDestroyOnLoad(gameObject);
 
         // Lock abilities
         hasDoubleJump = false;
@@ -75,7 +76,8 @@ public class GameManager : MonoBehaviour {
         // UI for debug
         UI.text = "- UI -\n";
         UI.text += "deaths: " + deathCount.ToString() + "\n";
-        UI.text += "time: " + string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds) + "\n";
+        UI.text += "time: " + string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
+        //UI.text += "time: " + string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds) + "\n";
     }
 
 
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour {
 
     // Player dies
     public void PlayerDeath() {
+        Debug.Log("deathCount: " + deathCount);
         deathCount++;
     }
 }

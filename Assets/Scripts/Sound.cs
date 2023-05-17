@@ -7,10 +7,11 @@ public class Sound {
     public string name;
     public AudioClip clip;
 
-    [HideInInspector]
-    public AudioSource source;
-
+    // Loops forever
     public bool loop = false;
+
+    // Harmonizes with music
+    public bool harmonize = false;
 
     [Range(0f, 1f)]
     public float volume = 1f;

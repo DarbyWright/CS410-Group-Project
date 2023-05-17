@@ -14,7 +14,7 @@ public class HandleInput : MonoBehaviour
     void Update()
     {
 
-      FindObjectOfType<AudioManager>().Play("PlayerDeath");
+      //FindObjectOfType<AudioManager>().PlaySFX("PlayerDeath");
 
     }
 }
