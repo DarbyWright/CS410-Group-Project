@@ -42,10 +42,10 @@ public class PlayerController : MonoBehaviour {
     //Adds raycasts slightly in each direction around the player to help with uneven environments
     //Probably will not be necessary if we switch to a controller
     private static readonly Vector3[] raycastPositions = new Vector3[] {
-        new Vector3(0.5f, 0f, 0f),
-        new Vector3(-0.5f, 0f, 0f),
-        new Vector3(0f, 0f, 0.5f),
-        new Vector3(0f, 0f, -0.5f),
+        new Vector3(0.5f, 0.5f, 0f),
+        new Vector3(-0.5f, 0.5f, 0f),
+        new Vector3(0f, 0.5f, 0.5f),
+        new Vector3(0f, 0.5f, -0.5f),
         Vector3.zero
     };
 
@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour {
 
         //Set player rotation to match, have tried slowly rotating but it always seems to cause tearing because of how fast you can look around
         transform.rotation = cameraDirection;
-        transform.position += (moveDirection * moveSpeed * Time.deltaTime);
+        transform.position += (moveDirection.normalized * moveSpeed * Time.deltaTime);
 
         // If the player can jump, pressed jump, and (was just on the ground or can double jumping)
         // earlyJumpWindow - used instead of checking the jump button so players still jump if they press too early

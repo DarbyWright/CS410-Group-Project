@@ -8,30 +8,36 @@ public class MoleHutBehavior : MonoBehaviour
 {
     public Transform[] patrolPoints;
     public Transform m_Mole;
+    public Animator animator;
     public float speed = 2f;
     public float pauseTime = 1f;
-    float minDelay = 1f;
-    float maxDelay = 3f;
+    float minDelay = 0.5f;
+    float maxDelay = 2.5f;
     int targetIndex = 0;
-
+    bool notRotate = false;
 
     // Start is called before the first frame update
     void Start()
     {
         m_Mole.transform.position = patrolPoints[1].transform.position;
-        
-        Invoke("MoveToNextWaypoint", Random.Range(minDelay, maxDelay));
+        animator = m_Mole.GetComponent<Animator>();
     } 
 
     // Update is called once per frame
     void Update()
     {
-        MoveToNextWaypoint();
-    }
 
-    IEnumerator Timer()
-    {
-        yield return new WaitForSeconds(pauseTime);
+        if(pauseTime > 0f)
+        {
+            pauseTime -= Time.deltaTime;
+        }
+        else
+        {
+            notRotate = false;
+            MoveToNextWaypoint();
+        }
+        
+
     }
 
     void MoveToNextWaypoint()
@@ -44,18 +50,21 @@ public class MoleHutBehavior : MonoBehaviour
         {
 
             targetIndex = (targetIndex + 1) % patrolPoints.Length;
-            Timer();
-
+            pauseTime = Random.Range(minDelay, maxDelay);
+            notRotate = true;
         }
 
-        // Calculate the direction to the target waypoint.
-        Vector3 directionToTarget = (patrolPoints[targetIndex].transform.position - m_Mole.transform.position).normalized;
+        if(!notRotate)
+        {
+            // Calculate the direction to the target waypoint.
+            Vector3 directionToTarget = (patrolPoints[targetIndex].transform.position - m_Mole.transform.position).normalized;
 
-        // Move the mole in the direction of the target waypoint.
-        m_Mole.transform.position += directionToTarget * speed * Time.deltaTime;
+            // Move the mole in the direction of the target waypoint.
+            m_Mole.transform.position += directionToTarget * speed * Time.deltaTime;
 
-        // Rotate the mole towards the direction of the target waypoint.
-        m_Mole.transform.rotation = Quaternion.LookRotation(directionToTarget);
+            // Rotate the mole towards the direction of the target waypoint.
+            m_Mole.transform.rotation = Quaternion.LookRotation(directionToTarget);
+        }
 
     }
 }

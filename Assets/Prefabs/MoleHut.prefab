@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1243500912658654633}
-  - component: {fileID: 7986172305399600925}
   m_Layer: 0
   m_Name: MoleHut
   m_TagString: Untagged
@@ -55,24 +54,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7986172305399600925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 175881732376212680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e43bdc42ffaeb4c9dda1a8c3de1df2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolPoints:
-  - {fileID: 7089758002862729763}
-  - {fileID: 4741938592277478363}
-  m_Mole: {fileID: 3313533545048874844}
-  speed: 2
-  pauseTime: 1
 --- !u!1 &2787044706530208682
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,8 +108,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5881318897044083970}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.047, y: 0.032, z: -1.821}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.000998687, y: 0.09800001, z: -2.283001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,6 +156,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1243500912658654633}
     m_Modifications:
+    - target: {fileID: 2096257822641087331, guid: c73ae6621f8832748a78dfb8aec6dd12,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406188588216695062, guid: c73ae6621f8832748a78dfb8aec6dd12,
+        type: 3}
+      propertyPath: points.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2732684518155842968, guid: c73ae6621f8832748a78dfb8aec6dd12,
         type: 3}
       propertyPath: m_Name
