@@ -794,6 +794,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 28ff3d1a78d56e64697ef8bc44284b75,
         type: 3}
+      propertyPath: DoubleJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 28ff3d1a78d56e64697ef8bc44284b75,
+        type: 3}
       propertyPath: JumpHeight
       value: 3
       objectReference: {fileID: 0}
@@ -801,6 +806,16 @@ PrefabInstance:
         type: 3}
       propertyPath: SprintSpeed
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 28ff3d1a78d56e64697ef8bc44284b75,
+        type: 3}
+      propertyPath: CanDoubleJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 28ff3d1a78d56e64697ef8bc44284b75,
+        type: 3}
+      propertyPath: canDoubleJump
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28ff3d1a78d56e64697ef8bc44284b75, type: 3}
@@ -822,7 +837,7 @@ GameObject:
   - component: {fileID: 1198149548}
   - component: {fileID: 1198149547}
   - component: {fileID: 1198149546}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Block (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
