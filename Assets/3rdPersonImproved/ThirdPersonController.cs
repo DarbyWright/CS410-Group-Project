@@ -1,4 +1,12 @@
-﻿ using UnityEngine;
+﻿/*
+    Any additional code that Ive added to is commented with *** before and after the comment.
+
+    There are sections seperated with --------------- which indicate sections that ive copied 
+    over from the other player cointroller script.
+
+*/
+
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -76,12 +84,6 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
-        // ------- Unlockalble abilities --------
-        public bool canDoubleJump = false;
-        public bool canDash       = false;
-        public bool canGlide      = false;
-        // --------------------------------------
-
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -93,10 +95,6 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
-        
-        // --------------------------------------
-        // bool didDoubleJump = false;
-        // --------------------------------------
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -133,7 +131,47 @@ namespace StarterAssets
 #endif
             }
         }
+// -------------------------------------------------------------------
+// Everthing above was already implemented. Parameters below are mostly 
+// copied over from the other player controller script.
 
+        // Game and audio managers
+        GameManager gameManager;
+        AudioManager audioManager;
+
+        // Unlockalble abilities
+        public bool canDoubleJump = false;
+        public bool canDash       = false;
+        public bool canGlide      = false;
+
+        // Jumping
+        bool jumping = false;
+        int maxJumps = 2;
+        int numJumps = 0;
+        bool didDoubleJump = false;
+
+        // Dashing
+        bool dashing        = false;
+        float dashStrength  = 40f;
+        int dashInit        = 0;
+        int dashInitMax     = Mathf.RoundToInt(0.75f * 60f);
+        int dashCooldown    = 0;
+        int dashCooldownMax = 3 * 60;
+
+        // Gliding
+        bool gliding        = false;
+        float glideSpeedCut = 0.5f;
+
+        // Whether the player can be controlled on not (pausing, death animation, cutscenes, etc)
+        public bool active = true;
+
+        // Death, animation time, and respawn location
+        float deathPlane      = -25f;
+        int deathAnimTimer    = 0;
+        int deathAnimTimerMax = 2 * 60;
+        Vector3 respawnPos;
+        
+// ----------------------------------------------------------------------------------------------------------------------------------
 
         private void Awake()
         {
@@ -142,6 +180,15 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            // *** Get game and audio managers ***
+            gameManager  = FindObjectOfType<GameManager>();
+            audioManager = FindObjectOfType<AudioManager>();
+
+            // *** Get abilities if the game manager has tracked them as collected ***
+            canDoubleJump = gameManager.hasDoubleJump;
+            canDash       = gameManager.hasDash;
+            canGlide      = gameManager.hasGlide;
         }
 
         private void Start()
@@ -245,8 +292,7 @@ namespace StarterAssets
             {
                 // creates curved result rather than a linear one giving a more organic speed change
                 // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
+                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
 
                 // round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -266,10 +312,8 @@ namespace StarterAssets
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
+                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
@@ -293,16 +337,18 @@ namespace StarterAssets
         {
             if (Grounded)
             {
-
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
+
+                jumping = false;
+                numJumps = 0;
 
                 // update animator if using character
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
-                    // _animator.SetBool(_animIDDoubleJump, false);
+                    _animator.SetBool(_animIDDoubleJump, false);
                 }
 
                 // stop our velocity dropping infinitely when grounded
@@ -314,6 +360,9 @@ namespace StarterAssets
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    // *** increase the jump counter ***
+                    numJumps++;
+
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -332,8 +381,11 @@ namespace StarterAssets
             }
             else
             {
-                if (_input.jump && canDoubleJump)
+                // *** If the player is not grounded, check for double Jump ***
+                if (_input.jump && canDoubleJump && numJumps < maxJumps + 1)
                 {
+                    numJumps++;
+
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -411,6 +463,140 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+        // Everything above was from the ThirdPersonController package.
+        // Everything below was copied over directly from from the other player controller script. 
+
+        void handleTimers() {
+
+            // Freeze right before dash
+            if (dashInit > 0) dashInit--;
+
+            // At the end of the dash "charge" give control back to the player
+            if (dashInit == 1) {
+                active = true;
+                // Dash();
+            }
+
+            // Time until can dash again
+            if (dashCooldown > 0) dashCooldown--;
+            else dashing = false;
+
+            // Freeze right before dash
+            if (dashInit > 0) dashInit--;
+
+            // Death animation / cutscene
+            if (deathAnimTimer > 0) deathAnimTimer--;
+
+            // At the end of the death animation, die and respawn
+            if (deathAnimTimer == 1)
+                DieAndRespawn();
+        }
+
+        // Triggers
+        void OnTriggerEnter(Collider other) {
+
+            // Music trigger
+            if (other.gameObject.CompareTag("MusicTrigger")) {
+                // TODO???
+            }
+
+            // DoubleJump item
+            if (other.gameObject.CompareTag("ItemDoubleJump")) {
+                gameManager.GotDoubleJump();
+                canDoubleJump = true;
+                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+                Destroy(other.gameObject);
+
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_SpecialEvent");
+            }
+
+            // Dash item
+            if (other.gameObject.CompareTag("ItemDash")) {
+                gameManager.GotDash();
+                canDash = true;
+                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+                Destroy(other.gameObject);
+            }
+
+            // Glide item
+            if (other.gameObject.CompareTag("ItemGlide")) {
+                gameManager.GotGlide();
+                canGlide = true;
+                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+                Destroy(other.gameObject);
+            }
+
+            // Checkpoints
+            if (other.gameObject.CompareTag("Checkpoint")) {
+                float x = other.gameObject.transform.position.x;
+                float y = other.gameObject.transform.position.y;
+                float z = other.gameObject.transform.position.z;
+
+                // Only set checkpoint if this is a differnet one (for sound or animation if we want)
+                if (!(x == respawnPos.x && y == respawnPos.y & z == respawnPos.z))
+                    SetCheckPoint(x, y, z, true);
+                Destroy(other.gameObject);
+            }
+        }
+
+        // Collide with objects
+        void OnCollisionEnter(Collision collision) {
+
+            // If a projectile hits player, die
+            if (collision.gameObject.CompareTag("Enemy") || 
+                collision.gameObject.CompareTag("EnemyProjectile") ||
+                collision.gameObject.CompareTag("OutOfBounds")) {
+                DeathAnim();
+            }
+        }
+
+        // Update the player's respawn position
+        void SetCheckPoint(float x, float y, float z, bool sound) {
+            respawnPos = new Vector3(x, y, z);
+
+            // Collectable sound
+            if (audioManager != null && sound)
+                audioManager.PlaySFX("SFX_Collectable");
+        }
+
+        // Death animation
+        void DeathAnim() {
+            if (deathAnimTimer == 0) {
+                deathAnimTimer = deathAnimTimerMax;
+
+                // Death sound
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_PlayerDeath");
+            }
+        }
+
+            // Die and respawn
+        void DieAndRespawn() {
+
+            // Update death counter
+            if (gameManager != null)
+                gameManager.PlayerDeath();
+
+            // Respawn sound
+            if (audioManager != null)
+                audioManager.PlaySFX("SFX_PlayerRespawn");
+
+            // Reset vars
+            active          = true;
+            _speed       = 0f;
+            jumping         = false;
+            didDoubleJump   = false;
+
+            dashing      = false;
+            dashInit     = 0;
+            dashCooldown = 0;
+
+            // Set position
+            transform.position = respawnPos;
         }
     }
 }
