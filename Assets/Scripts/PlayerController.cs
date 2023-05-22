@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour {
     float glideGrav     = 0.5f;
 
     // Death, animation time, and respawn location
-    float deathPlane      = -25f;
+    float deathPlane      = -50f;
     int deathAnimTimer    = 0;
     int deathAnimTimerMax = 2 * 60;
     Vector3 respawnPos;
@@ -146,6 +146,11 @@ public class PlayerController : MonoBehaviour {
         canDoubleJump = gameManager.hasDoubleJump;
         canDash       = gameManager.hasDash;
         canGlide      = gameManager.hasGlide;
+
+        //////////////////////////////////////////////////////////////////////////////////// Delete this after testing
+        gameManager.GotDoubleJump();                            // for alllowing dbl jumping in hubworld
+        canDoubleJump = true;
+        //////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 
