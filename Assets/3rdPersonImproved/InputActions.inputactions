@@ -52,9 +52,9 @@
                 },
                 {
                     "name": "Glide",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "613fd064-9906-4b01-a678-faa47e97a5b1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -240,7 +240,7 @@
                 {
                     "name": "",
                     "id": "482de7bd-8b1a-4aa9-a0f4-d42f6f2c7a1c",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -251,7 +251,7 @@
                 {
                     "name": "",
                     "id": "5f72a047-e992-40f3-9601-9006d3b3daf6",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",

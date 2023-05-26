@@ -1,4 +1,4 @@
-﻿/*
+/*
     Any additional code that Ive added to is commented with *** before and after the comment.
 
     There are sections seperated with --------------- which indicate sections that ive copied 
@@ -29,6 +29,12 @@ namespace StarterAssets
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
+        [Tooltip("Dash speed of the character in m/s")]
+        public float DashSpeed = 40f;
+
+        // [Tooltip("Dash Duration in milliseconds")]
+        // public int DashDuration = 60;
+
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
@@ -47,10 +53,16 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
+        [Tooltip("Percentage of gravity when glide is used")]
+        public float GlideGravity = 0.5f;
+
         [Space(10)]
 
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
+
+        // [Tooltip("Time required to pass before being able to dash again. Set to 0f to instantly dash again")]
+        // public float DashTimeout = 40f;
 
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
@@ -98,6 +110,7 @@ namespace StarterAssets
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
+        private float _dashTimeoutDelta;
         private float _fallTimeoutDelta;
 
         // animation IDs
@@ -165,7 +178,7 @@ namespace StarterAssets
         // Whether the player can be controlled on not (pausing, death animation, cutscenes, etc)
         public bool active = true;
 
-        // Death, animation time, and respawn location
+        // Death, animation time, and respawn location 
         float deathPlane      = -25f;
         int deathAnimTimer    = 0;
         int deathAnimTimerMax = 2 * 60;
@@ -208,12 +221,16 @@ namespace StarterAssets
 
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
+            // _dashTimeoutDelta = DashTimeout;
             _fallTimeoutDelta = FallTimeout;
         }
 
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+
+            // *** Added ***
+            handleTimers();
 
             JumpAndGravity();
             GroundedCheck();
@@ -230,7 +247,7 @@ namespace StarterAssets
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
-            _animIDDoubleJump = Animator.StringToHash("DoubleJump");
+            _animIDDoubleJump = Animator.StringToHash("DoubleJump"); // *** Added ***
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
@@ -271,8 +288,9 @@ namespace StarterAssets
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -318,7 +336,6 @@ namespace StarterAssets
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
-
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -417,8 +434,14 @@ namespace StarterAssets
                 _input.jump = false ;
             }
 
+            // ***Super simple Glide. Just reducing gravity***
+            if (_input.glide && canGlide)
+            {
+                _verticalVelocity += Gravity * GlideGravity * Time.deltaTime;
+            }
+
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            else if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
@@ -466,7 +489,22 @@ namespace StarterAssets
         }
 // -------------------------------------------------------------------------------------------------------------------------------------------------
         // Everything above was from the ThirdPersonController package.
-        // Everything below was copied over directly from from the other player controller script. 
+        // Everything below was copied over directly from from the other player controller script.
+
+            // Dash motion and sound
+        // float Dash() {
+        //     float additionalSpeed = 0;
+        //     dashing = true;
+
+        //     // When can dash again
+        //     dashCooldown = dashCooldownMax;
+
+        //     // Dash sound
+        //     if (audioManager != null)
+        //         audioManager.PlaySFX("SFX_PlayerDash");
+            
+        //     return additionalSpeed;
+        // }
 
         void handleTimers() {
 
@@ -481,7 +519,7 @@ namespace StarterAssets
 
             // Time until can dash again
             if (dashCooldown > 0) dashCooldown--;
-            else dashing = false;
+            // else _input.dash = false;
 
             // Freeze right before dash
             if (dashInit > 0) dashInit--;
@@ -499,7 +537,7 @@ namespace StarterAssets
 
             // Music trigger
             if (other.gameObject.CompareTag("MusicTrigger")) {
-                // TODO???
+                // TODO ???
             }
 
             // DoubleJump item
@@ -574,7 +612,7 @@ namespace StarterAssets
             }
         }
 
-            // Die and respawn
+        // Die and respawn
         void DieAndRespawn() {
 
             // Update death counter
