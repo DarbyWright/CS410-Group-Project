@@ -13,13 +13,13 @@ public class Level1SceneSwitch : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (sceneNumber == 0)
+        if (sceneNumber == 1)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
         else
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 }

@@ -205,7 +205,7 @@ namespace StarterAssets
         }
 
         private void Start()
-        {
+        { 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -239,7 +239,9 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            CameraRotation();
+           //if paused disable camera since it is immune to timeScale changes
+            if(!PauseMenu.Paused)
+                CameraRotation();
         }
 
         private void AssignAnimationIDs()
@@ -582,7 +584,7 @@ namespace StarterAssets
         }
 
         // Collide with objects
-        void OnCollisionEnter(Collision collision) {
+        void OnControllerColliderHit(ControllerColliderHit collision) {
 
             // If a projectile hits player, die
             if (collision.gameObject.CompareTag("Enemy") || 

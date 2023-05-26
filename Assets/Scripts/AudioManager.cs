@@ -8,10 +8,11 @@ public class AudioManager : MonoBehaviour {
     public static AudioManager instance;
 
     // Global sound volume
+    // Static so menu manager can interact with volume in any scene
     [Range(0f, 1f)]
-    public float sfxVolume   = 1f;
+    public static float sfxVolume   = 1f;
     [Range(0f, 1f)]
-    public float musicVolume = 1f;
+    public static float musicVolume = 1f;
 
     // Crossfade music volume
     static float crossfadeTime  = 120f;

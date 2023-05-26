@@ -500,7 +500,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("ItemDash")) {
             gameManager.GotDash();
             canDash = true;
-            // Temperarily just set to inactive to make the hovering text work
+            // Temporarily just set to inactive to make the hovering text work
             other.gameObject.SetActive(false);
             SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
             // Destroy(other.gameObject);
