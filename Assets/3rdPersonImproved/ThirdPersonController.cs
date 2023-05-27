@@ -29,11 +29,15 @@ namespace StarterAssets
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
-        [Tooltip("Dash speed of the character in m/s")]
-        public float DashSpeed = 40f;
+        [Space(10)]
 
-        // [Tooltip("Dash Duration in milliseconds")]
-        // public int DashDuration = 60;
+        [Tooltip("Dash speed of the character in m/s")] // *** Added ***
+        public float DashSpeed = 45f;
+
+        [Tooltip("Dash Duration in arbitrary measurments")] // *** Added ***
+        public int DashLength = 100;
+
+        [Space(10)]
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -53,7 +57,7 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
-        [Tooltip("Percentage of gravity when glide is used")]
+        [Tooltip("Percentage of gravity when glide is used")] // *** Added ***
         public float GlideGravity = 0.5f;
 
         [Space(10)]
@@ -61,8 +65,8 @@ namespace StarterAssets
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
 
-        // [Tooltip("Time required to pass before being able to dash again. Set to 0f to instantly dash again")]
-        // public float DashTimeout = 40f;
+        [Tooltip("Time required to pass after jumping before being able to double jump.")] // *** Added ***
+        public float DoubleJumpTimeout = 40f;
 
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
@@ -110,14 +114,13 @@ namespace StarterAssets
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
-        private float _dashTimeoutDelta;
+        private float _doubleJumpTimeoutDelta; // ***Added***
         private float _fallTimeoutDelta;
 
         // animation IDs
         private int _animIDSpeed;
         private int _animIDGrounded;
         private int _animIDJump;
-        private int _animIDDoubleJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
@@ -144,9 +147,8 @@ namespace StarterAssets
 #endif
             }
         }
-// -------------------------------------------------------------------
-// Everthing above was already implemented. Parameters below are mostly 
-// copied over from the other player controller script.
+// -----------------------------------------------------------------------------------------------
+        // *** Added ***
 
         // Game and audio managers
         GameManager gameManager;
@@ -158,22 +160,12 @@ namespace StarterAssets
         public bool canGlide      = false;
 
         // Jumping
-        bool jumping = false;
-        int maxJumps = 2;
-        int numJumps = 0;
         bool didDoubleJump = false;
 
-        // Dashing
-        bool dashing        = false;
-        float dashStrength  = 40f;
-        int dashInit        = 0;
-        int dashInitMax     = Mathf.RoundToInt(0.75f * 60f);
+        // Dash
         int dashCooldown    = 0;
         int dashCooldownMax = 3 * 60;
-
-        // Gliding
-        bool gliding        = false;
-        float glideSpeedCut = 0.5f;
+        int dashTimeRemaining = 0;
 
         // Whether the player can be controlled on not (pausing, death animation, cutscenes, etc)
         public bool active = true;
@@ -184,7 +176,7 @@ namespace StarterAssets
         int deathAnimTimerMax = 2 * 60;
         Vector3 respawnPos;
         
-// ----------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
 
         private void Awake()
         {
@@ -194,14 +186,16 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
 
+            // ------------------------------------------------------------------------
             // *** Get game and audio managers ***
             gameManager  = FindObjectOfType<GameManager>();
             audioManager = FindObjectOfType<AudioManager>();
 
             // *** Get abilities if the game manager has tracked them as collected ***
-            canDoubleJump = gameManager.hasDoubleJump;
-            canDash       = gameManager.hasDash;
-            canGlide      = gameManager.hasGlide;
+            canDoubleJump = gameManager.hasDoubleJump; // *** Added ***
+            canDash       = gameManager.hasDash; // *** Added ***
+            canGlide      = gameManager.hasGlide; // *** Added ***
+            // ------------------------------------------------------------------------
         }
 
         private void Start()
@@ -221,7 +215,7 @@ namespace StarterAssets
 
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
-            // _dashTimeoutDelta = DashTimeout;
+            _doubleJumpTimeoutDelta = DoubleJumpTimeout; // *** Added ***
             _fallTimeoutDelta = FallTimeout;
         }
 
@@ -229,8 +223,7 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
-            // *** Added ***
-            handleTimers();
+            handleTimers(); // *** Added ***
 
             JumpAndGravity();
             GroundedCheck();
@@ -249,7 +242,6 @@ namespace StarterAssets
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
-            _animIDDoubleJump = Animator.StringToHash("DoubleJump"); // *** Added ***
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
@@ -284,8 +276,7 @@ namespace StarterAssets
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
             // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
         }
 
         private void Move()
@@ -293,6 +284,24 @@ namespace StarterAssets
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
+            // -----------------------------------------------------
+            // ***Dashing currently just increases target speed***
+            if (_input.dash && canDash && dashCooldown <= 0)
+            {
+                dashCooldown = dashCooldownMax;
+                dashTimeRemaining = DashLength;
+                _animator.CrossFade("Dash", 0);
+            }
+
+            if (dashTimeRemaining > 0)
+            {
+                targetSpeed = DashSpeed;
+            }
+            else
+            {
+                _input.dash = false;
+            }
+            // -----------------------------------------------------
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -359,15 +368,13 @@ namespace StarterAssets
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
-                jumping = false;
-                numJumps = 0;
+                didDoubleJump = false; // *** Added ***
 
                 // update animator if using character
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
-                    _animator.SetBool(_animIDDoubleJump, false);
                 }
 
                 // stop our velocity dropping infinitely when grounded
@@ -379,9 +386,6 @@ namespace StarterAssets
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
-                    // *** increase the jump counter ***
-                    numJumps++;
-
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -391,6 +395,9 @@ namespace StarterAssets
                         _animator.SetBool(_animIDJump, true);
                     }
                 }
+                // If you're grounded and you didn't jump, reset double jump timeout delta
+                else
+                    _doubleJumpTimeoutDelta = DoubleJumpTimeout; // *** Added ***
 
                 // jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
@@ -400,10 +407,11 @@ namespace StarterAssets
             }
             else
             {
+                // -------------------------------------------------------------------------------------
                 // *** If the player is not grounded, check for double Jump ***
-                if (_input.jump && canDoubleJump && numJumps < maxJumps + 1)
+                if (_input.jump && canDoubleJump && _doubleJumpTimeoutDelta <= 0.0f && !didDoubleJump)
                 {
-                    numJumps++;
+                    didDoubleJump = true;
 
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -411,9 +419,10 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDDoubleJump, true);
+                        _animator.CrossFade("DoubleJump", 0);
                     }
                 }
+                // -------------------------------------------------------------------------------------
 
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
@@ -434,13 +443,26 @@ namespace StarterAssets
 
                 // if we are not grounded, do not jump
                 _input.jump = false ;
+
+                // -----------------------------------------------------------------------------
+                // *** Once we're in the air, start decrementing double jump fallout delta. ***
+                if (_doubleJumpTimeoutDelta >= 0.0f)
+                {
+                    _doubleJumpTimeoutDelta -= Time.deltaTime;
+                }
+                // -----------------------------------------------------------------------------
             }
 
-            // ***Super simple Glide. Just reducing gravity***
+            // ---------------------------------------------------------------------------------------
+            // ***Super simple Glide. Just reducing gravity but only if the playuer is moving down***
             if (_input.glide && canGlide)
             {
-                _verticalVelocity += Gravity * GlideGravity * Time.deltaTime;
+                if (_verticalVelocity < 0.0f)
+                    _verticalVelocity += Gravity * GlideGravity * Time.deltaTime;
+                else
+                    _verticalVelocity += Gravity * Time.deltaTime;
             }
+            // ---------------------------------------------------------------------------------------
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
             else if (_verticalVelocity < _terminalVelocity)
@@ -490,41 +512,14 @@ namespace StarterAssets
             }
         }
 // -------------------------------------------------------------------------------------------------------------------------------------------------
-        // Everything above was from the ThirdPersonController package.
-        // Everything below was copied over directly from from the other player controller script.
-
-            // Dash motion and sound
-        // float Dash() {
-        //     float additionalSpeed = 0;
-        //     dashing = true;
-
-        //     // When can dash again
-        //     dashCooldown = dashCooldownMax;
-
-        //     // Dash sound
-        //     if (audioManager != null)
-        //         audioManager.PlaySFX("SFX_PlayerDash");
-            
-        //     return additionalSpeed;
-        // }
+        // Everything above was from the ThirdPersonController package (excewpt sections with dashed lines or lines with *** Added ***).
+        // Everything below was copied over from from the other player controller script and adapted to work in this one.
 
         void handleTimers() {
 
-            // Freeze right before dash
-            if (dashInit > 0) dashInit--;
-
-            // At the end of the dash "charge" give control back to the player
-            if (dashInit == 1) {
-                active = true;
-                // Dash();
-            }
-
             // Time until can dash again
             if (dashCooldown > 0) dashCooldown--;
-            // else _input.dash = false;
-
-            // Freeze right before dash
-            if (dashInit > 0) dashInit--;
+            if (dashTimeRemaining > 0) dashTimeRemaining--;
 
             // Death animation / cutscene
             if (deathAnimTimer > 0) deathAnimTimer--;
@@ -591,6 +586,7 @@ namespace StarterAssets
                 collision.gameObject.CompareTag("EnemyProjectile") ||
                 collision.gameObject.CompareTag("OutOfBounds")) {
                 DeathAnim();
+                DieAndRespawn();
             }
         }
 
@@ -628,11 +624,8 @@ namespace StarterAssets
             // Reset vars
             active          = true;
             _speed       = 0f;
-            jumping         = false;
             didDoubleJump   = false;
 
-            dashing      = false;
-            dashInit     = 0;
             dashCooldown = 0;
 
             // Set position
