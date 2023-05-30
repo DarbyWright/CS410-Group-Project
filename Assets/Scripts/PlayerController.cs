@@ -534,7 +534,7 @@ public class PlayerController : MonoBehaviour {
     void OnCollisionEnter(Collision collision) {
 
         // If a projectile hits player, die
-        if (collision.gameObject.CompareTag("Enemy") || 
+        if (collision.gameObject.CompareTag("Enemy") ||
             collision.gameObject.CompareTag("EnemyProjectile") ||
             collision.gameObject.CompareTag("OutOfBounds")) {
             DeathAnim();

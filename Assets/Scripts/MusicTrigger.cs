@@ -23,11 +23,8 @@ public class MusicTrigger : MonoBehaviour {
 
     // Player enters trigger
     void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player")) {
-            Debug.Log("touched " + mus_name);
-            gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
             SwitchMusic();
-        }
     }
 
 

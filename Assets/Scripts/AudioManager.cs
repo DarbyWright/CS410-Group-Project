@@ -91,9 +91,9 @@ public class AudioManager : MonoBehaviour {
 
     // Play a music (and possibly ambience) track
     public void PlayMusic(string mus_name, int vari, string amb_name) {
-        Debug.Log("PlayMusic()");
+        //Debug.Log("PlayMusic()");
         //Debug.Log(musicTrack + " " + musicVar + " " + ambTrack);
-        Debug.Log(mus_name + " " + vari + " " + variOffset + " " + amb_name);
+        //Debug.Log(mus_name + " " + vari + " " + variOffset + " " + amb_name);
 
         // Don't play again if it's the same track and variation
         if (musicTrack == mus_name && musicVar == vari) {
@@ -139,11 +139,12 @@ public class AudioManager : MonoBehaviour {
             musicSources[i].Play();
         //}
 
+        // Ambient tracks for some reason override the msuic, so disabled for now
         return;
 
         // Don't play again if it's the same ambience track
         if (ambTrack == amb_name) {
-            Debug.Log(amb_name + " already playing");
+            //Debug.Log(amb_name + " already playing");
             return;
         }
 
@@ -153,7 +154,7 @@ public class AudioManager : MonoBehaviour {
         // Find ambience track
         Sound amb = Array.Find(ambientTracks, x => x.name == amb_name);
         if (amb == null) {
-            Debug.Log(amb_name + " missing");
+            //Debug.Log(amb_name + " missing");
             return;
         }
 
