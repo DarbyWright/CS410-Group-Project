@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 
     // Gliding
     bool gliding        = false;
-    float glideSpeedCut = 0.5f;
+    float glideSpeedCut = 0.9f;
 
     // Gravity
     float jumpPeakMin   = 2f;
