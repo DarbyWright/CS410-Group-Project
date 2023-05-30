@@ -148,8 +148,8 @@ public class PlayerController : MonoBehaviour {
         canGlide      = gameManager.hasGlide;
 
         //////////////////////////////////////////////////////////////////////////////////// Delete this after testing
-        gameManager.GotDoubleJump();                            // for alllowing dbl jumping in hubworld
-        canDoubleJump = true;
+        // gameManager.GotDoubleJump();                            // for alllowing dbl jumping in hubworld
+        // canDoubleJump = true;
         //////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
