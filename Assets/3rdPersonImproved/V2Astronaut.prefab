@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 8
-  SprintSpeed: 12
+  SprintSpeed: 16
   DashSpeed: 45
   DashLength: 100
   RotationSmoothTime: 0.12
@@ -644,9 +644,9 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
-  canDoubleJump: 0
-  canDash: 0
-  canGlide: 0
+  canDoubleJump: 1
+  canDash: 1
+  canGlide: 1
   active: 1
 --- !u!114 &5885216827943657505
 MonoBehaviour:

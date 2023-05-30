@@ -1,13 +1,13 @@
 /*
     Any additional code that Ive added to is commented with *** before and after the comment.
 
-    There are sections seperated with --------------- which indicate sections that ive copied 
+    There are sections seperated with --------------- which indicate sections that ive copied
     over from the other player cointroller script.
 
 */
 
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
@@ -17,7 +17,7 @@ using UnityEngine.InputSystem;
 namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
     public class ThirdPersonController : MonoBehaviour
@@ -124,7 +124,7 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
         private Animator _animator;
@@ -160,31 +160,34 @@ namespace StarterAssets
         public bool canGlide      = false;
 
         // Jumping
+        bool didJump       = false;
         bool didDoubleJump = false;
 
         // Dash
-        int dashCooldown    = 0;
-        int dashCooldownMax = 3 * 60;
+        int dashCooldown      = 0;
+        int dashCooldownMax   = 3 * 60;
         int dashTimeRemaining = 0;
 
         // Whether the player can be controlled on not (pausing, death animation, cutscenes, etc)
         public bool active = true;
 
-        // Death, animation time, and respawn location 
+        // Death, animation time, and respawn location
         float deathPlane      = -25f;
         int deathAnimTimer    = 0;
         int deathAnimTimerMax = 2 * 60;
         Vector3 respawnPos;
-        
+
 // -----------------------------------------------------------------------------------------------
 
         private void Awake()
         {
             // get a reference to our main camera
             if (_mainCamera == null)
-            {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
+        }
+
+        private void Start()
+        {
 
             // ------------------------------------------------------------------------
             // *** Get game and audio managers ***
@@ -196,16 +199,13 @@ namespace StarterAssets
             canDash       = gameManager.hasDash; // *** Added ***
             canGlide      = gameManager.hasGlide; // *** Added ***
             // ------------------------------------------------------------------------
-        }
 
-        private void Start()
-        { 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
@@ -291,16 +291,16 @@ namespace StarterAssets
                 dashCooldown = dashCooldownMax;
                 dashTimeRemaining = DashLength;
                 _animator.CrossFade("Dash", 0);
+
+                // Dash sound
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_PlayerDash");
             }
 
             if (dashTimeRemaining > 0)
-            {
                 targetSpeed = DashSpeed;
-            }
             else
-            {
                 _input.dash = false;
-            }
             // -----------------------------------------------------
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -363,11 +363,18 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
+            // jump timeout
+            if (_jumpTimeoutDelta >= 0.0f)
+            {
+                _jumpTimeoutDelta -= Time.deltaTime;
+            }
+
             if (Grounded)
             {
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
+                didJump = false;
                 didDoubleJump = false; // *** Added ***
 
                 // update animator if using character
@@ -384,8 +391,10 @@ namespace StarterAssets
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.jump && _jumpTimeoutDelta <= 0.0f && !didJump)
                 {
+                    didJump = true;
+
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -394,16 +403,18 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    // reset the jump timeout timer
+                    _jumpTimeoutDelta = JumpTimeout;
+
+                    // Jump sound
+                    if (audioManager != null)
+                        audioManager.PlaySFX("SFX_PlayerJump");
+
                 }
                 // If you're grounded and you didn't jump, reset double jump timeout delta
                 else
                     _doubleJumpTimeoutDelta = DoubleJumpTimeout; // *** Added ***
-
-                // jump timeout
-                if (_jumpTimeoutDelta >= 0.0f)
-                {
-                    _jumpTimeoutDelta -= Time.deltaTime;
-                }
             }
             else
             {
@@ -421,6 +432,10 @@ namespace StarterAssets
                     {
                         _animator.CrossFade("DoubleJump", 0);
                     }
+
+                    // Double jump sound
+                    if (audioManager != null)
+                        audioManager.PlaySFX("SFX_PlayerDoubleJump");
                 }
                 // -------------------------------------------------------------------------------------
 
@@ -555,6 +570,10 @@ namespace StarterAssets
                 canDash = true;
                 SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
                 Destroy(other.gameObject);
+
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_SpecialEvent");
             }
 
             // Glide item
@@ -563,6 +582,10 @@ namespace StarterAssets
                 canGlide = true;
                 SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
                 Destroy(other.gameObject);
+
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_SpecialEvent");
             }
 
             // Checkpoints
@@ -582,7 +605,7 @@ namespace StarterAssets
         void OnControllerColliderHit(ControllerColliderHit collision) {
 
             // If a projectile hits player, die
-            if (collision.gameObject.CompareTag("Enemy") || 
+            if (collision.gameObject.CompareTag("Enemy") ||
                 collision.gameObject.CompareTag("EnemyProjectile") ||
                 collision.gameObject.CompareTag("OutOfBounds")) {
                 DeathAnim();

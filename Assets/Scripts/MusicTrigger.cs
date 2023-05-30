@@ -24,8 +24,9 @@ public class MusicTrigger : MonoBehaviour {
     // Player enters trigger
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            //Debug.Log("touched");
-            //SwitchMusic();
+            Debug.Log("touched " + mus_name);
+            gameObject.SetActive(false);
+            SwitchMusic();
         }
     }
 
@@ -40,7 +41,7 @@ public class MusicTrigger : MonoBehaviour {
             audioManager.PlayMusic(mus_name, vari, amb_name);
 
         // Volume
-        //audioManager.MusicVolume(volume);
+        audioManager.MusicVolume(volume);
 
         // Only change music on the first collision
         if (onlyOnce) {
