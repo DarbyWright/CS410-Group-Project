@@ -184,7 +184,7 @@ public class AudioManager : MonoBehaviour {
         sfxVolume = volume;
 
         // SFX source
-        sfxSource.volume = sfxVolume;
+        //sfxSource.volume = sfxVolume;
     }
     // Change music (and ambience) volume
     public void MusicVolume(float volume) {
