@@ -16,7 +16,9 @@ public class SpikeTrigger : MonoBehaviour
     void FixedUpdate()
     {
         if (moveObject) // Extend
-            Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
+        {
+            Invoke("SpikeDelay", 0.3f);
+        }
         else { // Retract
             Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
         }
@@ -28,6 +30,11 @@ public class SpikeTrigger : MonoBehaviour
         else { // if been extended long enough, retract
             moveObject = false;
         }
+    }
+
+    void SpikeDelay()
+    {
+        Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
     }
 
     void OnTriggerEnter(Collider other)
