@@ -9,17 +9,34 @@ public class SpikeTrigger : MonoBehaviour
     public Transform RetractPosition;
     public bool moveObject = false;
 
+    private int extendedDurationMax = 60;
+    private int extendedDuration = 0;
+
+
     void FixedUpdate()
     {
-        if (moveObject)
-            Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 100);
+        if (moveObject) // Extend
+            Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
+        else { // Retract
+            Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
+        }
+        
+        // Check if extended
+        if (extendedDuration > 0) {
+            extendedDuration--;
+        }
+        else { // if been extended long enough, retract
+            moveObject = false;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        // If collided with
         if (other.gameObject.CompareTag("Player"))
         {
             moveObject = true;
+            extendedDuration = extendedDurationMax;
         }
     }
 }
