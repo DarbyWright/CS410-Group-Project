@@ -175,9 +175,9 @@ namespace StarterAssets
         float deathPlane      = -25f;
         int deathAnimTimer    = 0;
         int deathAnimTimerMax = 2 * 60;
-        Vector3 respawnPos;
+        public Vector3 respawnPos;
 
-        bool dead = false;
+        public bool dead = false;
 
 // -----------------------------------------------------------------------------------------------
 
@@ -228,9 +228,13 @@ namespace StarterAssets
 
             handleTimers(); // *** Added ***
 
+            if(!dead)
+            {
+                Move();
+            }
             JumpAndGravity();
             GroundedCheck();
-            Move();
+
         }
 
         private void LateUpdate()
@@ -557,6 +561,11 @@ namespace StarterAssets
                 // TODO ???
             }
 
+            if (other.gameObject.CompareTag("TempLvl2Trigger"))
+            {
+                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+            }
+
             // DoubleJump item
             if (other.gameObject.CompareTag("ItemDoubleJump")) {
                 gameManager.GotDoubleJump();
@@ -607,6 +616,11 @@ namespace StarterAssets
                 Destroy(other.gameObject);
             }
 
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                DieAndRespawn();
+            }
+
             // *** Attempting to fix respwan issues ***
             // if (other.gameObject.CompareTag("OutOfBounds")) {
             //     DieAndRespawn();
@@ -625,16 +639,22 @@ namespace StarterAssets
         void OnControllerColliderHit(ControllerColliderHit collision) {
 
             // If a projectile hits player, die
-            if ((collision.gameObject.CompareTag("Enemy") ||
-                collision.gameObject.CompareTag("EnemyProjectile") ||
-                collision.gameObject.CompareTag("OutOfBounds"))) {
-                // active = false;
-                // DeathAnim();
-                if (!dead) {
-                    DieAndRespawn();
+            if (CanDieFromCollision(collision)){
+                if(!dead)
+                {
+                    dead = true;
+                    DieAndRespawn();   
                 }
             }
         }
+
+
+        bool CanDieFromCollision(ControllerColliderHit collision)
+        {
+            return collision.gameObject.CompareTag("Enemy") ||
+                   collision.gameObject.CompareTag("OutOfBounds");
+        }
+
 
         // Update the player's respawn position
         void SetCheckPoint(float x, float y, float z, bool sound) {
@@ -658,7 +678,7 @@ namespace StarterAssets
 
         // Die and respawn
         void DieAndRespawn() {
-            dead = true;
+            
             transform.position = respawnPos;
 
             // Update death counter
@@ -671,9 +691,9 @@ namespace StarterAssets
 
             // Reset vars
             active          = true;
-            _speed       = 0f;
             didDoubleJump   = false;
-
+            _speed = 0;
+            _verticalVelocity = 0;
             dashCooldown = 0;
 
             // Set position

@@ -20,7 +20,11 @@ public class GameManager : MonoBehaviour {
     public bool hasGlide      = false;
 
     // UI
-    public TextMeshProUGUI UI;
+    public TextMeshProUGUI DeathCount;
+    public TextMeshProUGUI TotalTime;
+    public TextMeshProUGUI DoubleJumpStatus;
+    public TextMeshProUGUI DashStatus;
+    public TextMeshProUGUI GlideStatus;
     public int deathCount       = 0;
     public float totalGameTime  = 0f;
 
@@ -54,8 +58,8 @@ public class GameManager : MonoBehaviour {
         inGame = true;
 
         // Get UI
-        if (UI == null)
-            UI = GetComponent<TextMeshProUGUI>();
+        //if (UI == null)
+        //    UI = GetComponent<TextMeshProUGUI>();
     }
 
 
@@ -70,13 +74,16 @@ public class GameManager : MonoBehaviour {
         int seconds = Mathf.FloorToInt(totalGameTime % 60f);
         int milliseconds = Mathf.FloorToInt((totalGameTime * 1000f) % 1000f);
 
-        if (UI == null)
-            return;
+        //if (UI == null)
+          //  return;
 
         // UI for debug
-        UI.text = "- UI -\n";
-        UI.text += "deaths: " + deathCount.ToString() + "\n";
-        UI.text += "time: " + string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
+        DeathCount.text = deathCount.ToString() + "\n";
+        TotalTime.text = string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
+
+        DoubleJumpStatus.text = (hasDoubleJump ? "True" : "False") + "\n";
+        DashStatus.text = (hasDash ? "True" : "False") + "\n";
+        GlideStatus.text =(hasGlide ? "True" : "False") + "\n";
         //UI.text += "time: " + string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds) + "\n";
     }
 

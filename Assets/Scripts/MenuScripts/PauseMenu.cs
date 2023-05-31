@@ -8,7 +8,9 @@ public class PauseMenu : MonoBehaviour
     public static bool Paused = false;
     public GameObject PauseMenuCanvas;
     public GameObject SettingsMenuCanvas;
+    public GameObject ControlsMenuCanvas;
     bool inSettings = false;
+    bool inControls = false;
     
     // Start is called before the first frame update
     void Start()
@@ -21,13 +23,19 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Paused && !inSettings)
+            if (Paused && !inSettings && !inControls)
             {
                 Play();
             }
-            else if(Paused && inSettings) {
+            else if (Paused && inSettings) {
                 inSettings = false;
                 SettingsMenuCanvas.SetActive(false);
+                Play();
+            }
+            else if (Paused && inControls)
+            {
+                inControls = false;
+                ControlsMenuCanvas.SetActive(false);
                 Play();
             }
             else
@@ -49,6 +57,11 @@ public class PauseMenu : MonoBehaviour
     public void SettingsSetter()
     {
         inSettings = !inSettings;
+    }
+
+    public void ControlsSetter()
+    {
+        inControls = !inControls;
     }
 
     public void Play()
