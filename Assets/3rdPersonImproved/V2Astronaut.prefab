@@ -645,9 +645,9 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   canDoubleJump: 1
-  canDash: 1
-  canGlide: 1
-  active: 1
+  canDash: 0
+  canGlide: 0
+  active: 0
 --- !u!114 &5885216827943657505
 MonoBehaviour:
   m_ObjectHideFlags: 0

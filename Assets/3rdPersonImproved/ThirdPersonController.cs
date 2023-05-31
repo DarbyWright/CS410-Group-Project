@@ -344,6 +344,7 @@ namespace StarterAssets
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
+                dead = false; // *** ADDED ***
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
@@ -562,7 +563,7 @@ namespace StarterAssets
                 canDoubleJump = true;
                 // transform.position = new Vector3 (0f, 0f, 0f);
                 // SetCheckPoint(37f, -11f, -58, false);
-                // SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
                 Destroy(other.gameObject);
 
                 // Item Jingle
@@ -605,6 +606,19 @@ namespace StarterAssets
                     SetCheckPoint(x, y, z, true);
                 Destroy(other.gameObject);
             }
+
+            // *** Attempting to fix respwan issues ***
+            // if (other.gameObject.CompareTag("OutOfBounds")) {
+            //     DieAndRespawn();
+            //     // gameManager.GotGlide();
+            //     // canGlide = true;
+            //     // SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+            //     // Destroy(other.gameObject);
+
+            //     // // Item Jingle
+            //     // if (audioManager != null)
+            //     //     audioManager.PlaySFX("SFX_SpecialEvent");
+            // }
         }
 
         // Collide with objects
@@ -613,8 +627,8 @@ namespace StarterAssets
             // If a projectile hits player, die
             if ((collision.gameObject.CompareTag("Enemy") ||
                 collision.gameObject.CompareTag("EnemyProjectile") ||
-                collision.gameObject.CompareTag("OutOfBounds")) && active) {
-                active = false;
+                collision.gameObject.CompareTag("OutOfBounds"))) {
+                // active = false;
                 // DeathAnim();
                 if (!dead) {
                     DieAndRespawn();
@@ -645,7 +659,7 @@ namespace StarterAssets
         // Die and respawn
         void DieAndRespawn() {
             dead = true;
-            // transform.position = respawnPos;
+            transform.position = respawnPos;
 
             // Update death counter
             if (gameManager != null)
@@ -663,7 +677,7 @@ namespace StarterAssets
             dashCooldown = 0;
 
             // Set position
-            transform.position = respawnPos;
+            // transform.position = respawnPos;
             dead = false;
         }
     }

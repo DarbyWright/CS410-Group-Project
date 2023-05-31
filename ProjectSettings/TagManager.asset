@@ -11,6 +11,9 @@ TagManager:
   - EnemyProjectile
   - OutOfBounds
   - Enemy
+  - CinemachineTarget
+  - MusicTrigger
+  - Spike
   layers:
   - Default
   - TransparentFX

@@ -4893,6 +4893,7 @@ GameObject:
   - component: {fileID: 8515167049110998578}
   - component: {fileID: 1988227295110812915}
   - component: {fileID: 8126760827735896863}
+  - component: {fileID: 4381306745744636482}
   m_Layer: 0
   m_Name: Light Hitbox
   m_TagString: Untagged
@@ -4978,6 +4979,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4381306745744636482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5218981533917717595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2f7d76706dc4c248af24d1a34ae619a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spikes: {fileID: 8385678223777570203}
+  ExtendPosition: {fileID: 1104252676471137987}
+  RetractPosition: {fileID: 8592910236308366912}
+  moveObject: 0
 --- !u!1 &6001272088994043501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,7 +5152,7 @@ GameObject:
   - component: {fileID: 8723787589880379433}
   m_Layer: 0
   m_Name: Spikes
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5205,7 +5222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
@@ -5284,7 +5301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
@@ -5363,7 +5380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
@@ -5442,7 +5459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
@@ -5521,7 +5538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
@@ -5600,7 +5617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1796290564219600, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_RootOrder
