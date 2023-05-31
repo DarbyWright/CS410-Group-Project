@@ -27,8 +27,8 @@ public class OptionsMenu : MonoBehaviour
         sfxText.text = sfxSlider.value.ToString();
 
         //Pass along update to audio manager
-        AudioManager.sfxVolume = sfxSlider.value / 100;
-        AudioManager.musicVolume = sfxSlider.value / 100;
+        AudioManager.instance.sfxVolume = sfxSlider.value / 100;
+        AudioManager.instance.musicVolume = sfxSlider.value / 100;
     }
 
     

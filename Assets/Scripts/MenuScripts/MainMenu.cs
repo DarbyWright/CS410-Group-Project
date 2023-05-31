@@ -5,21 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject musicHolder;
+    FadeInOut fade;
+
+    private void Start()
+    {
+        fade = FindAnyObjectByType<FadeInOut>();
+    }
+
     public void Play()
     {
-        // Disable music prior to scene swapping as it will persist otherwise
-        musicHolder.SetActive(false);
+        StartCoroutine(ChangeScene());
+    }
 
+    public IEnumerator ChangeScene()
+    {
+        fade.FadeIn();
+        yield return new WaitForSeconds(fade.timeToFade);
         Cursor.lockState = CursorLockMode.Locked;
-
         // Scenes are ordered in our dev order so Main Menu - > Hub -> Lvl 1
         // Mange scene swaps with index values
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Quit()
-
     {
         Application.Quit();
     }
