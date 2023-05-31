@@ -177,6 +177,8 @@ namespace StarterAssets
         int deathAnimTimerMax = 2 * 60;
         Vector3 respawnPos;
 
+        bool dead = false;
+
 // -----------------------------------------------------------------------------------------------
 
         private void Awake()
@@ -198,6 +200,7 @@ namespace StarterAssets
             canDoubleJump = gameManager.hasDoubleJump; // *** Added ***
             canDash       = gameManager.hasDash; // *** Added ***
             canGlide      = gameManager.hasGlide; // *** Added ***
+
             // ------------------------------------------------------------------------
 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -430,6 +433,7 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
+                        print("CROSSFADE");
                         _animator.CrossFade("DoubleJump", 0);
                     }
 
@@ -556,7 +560,9 @@ namespace StarterAssets
             if (other.gameObject.CompareTag("ItemDoubleJump")) {
                 gameManager.GotDoubleJump();
                 canDoubleJump = true;
-                SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
+                // transform.position = new Vector3 (0f, 0f, 0f);
+                // SetCheckPoint(37f, -11f, -58, false);
+                // SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
                 Destroy(other.gameObject);
 
                 // Item Jingle
@@ -595,7 +601,7 @@ namespace StarterAssets
                 float z = other.gameObject.transform.position.z;
 
                 // Only set checkpoint if this is a differnet one (for sound or animation if we want)
-                if (!(x == respawnPos.x && y == respawnPos.y & z == respawnPos.z))
+                if (!(x == respawnPos.x && y == respawnPos.y && z == respawnPos.z))
                     SetCheckPoint(x, y, z, true);
                 Destroy(other.gameObject);
             }
@@ -605,11 +611,14 @@ namespace StarterAssets
         void OnControllerColliderHit(ControllerColliderHit collision) {
 
             // If a projectile hits player, die
-            if (collision.gameObject.CompareTag("Enemy") ||
+            if ((collision.gameObject.CompareTag("Enemy") ||
                 collision.gameObject.CompareTag("EnemyProjectile") ||
-                collision.gameObject.CompareTag("OutOfBounds")) {
-                DeathAnim();
-                DieAndRespawn();
+                collision.gameObject.CompareTag("OutOfBounds")) && active) {
+                active = false;
+                // DeathAnim();
+                if (!dead) {
+                    DieAndRespawn();
+                }
             }
         }
 
@@ -635,6 +644,8 @@ namespace StarterAssets
 
         // Die and respawn
         void DieAndRespawn() {
+            dead = true;
+            // transform.position = respawnPos;
 
             // Update death counter
             if (gameManager != null)
@@ -653,6 +664,7 @@ namespace StarterAssets
 
             // Set position
             transform.position = respawnPos;
+            dead = false;
         }
     }
 }
