@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool dash;
 		public bool glide;
+		public bool respawn;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -55,6 +56,11 @@ namespace StarterAssets
 		{
 			GlideInput(value.isPressed);
 		}
+
+		public void OnRespawn(InputValue value)
+		{
+			RespawnInput(value.isPressed);
+		}
 #endif
 
 		public void MoveInput(Vector2 newMoveDirection)
@@ -85,6 +91,10 @@ namespace StarterAssets
 		public void GlideInput(bool newGlideState)
 		{
 			glide = newGlideState;
+		}
+		public void RespawnInput(bool newGlideState)
+		{
+			respawn = newGlideState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)

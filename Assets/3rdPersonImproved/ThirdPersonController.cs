@@ -284,6 +284,11 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_input.respawn)
+                _controller.Move(respawnPos);
+            // else
+            //     _input.respawn = false;
+
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
@@ -651,8 +656,8 @@ namespace StarterAssets
                 deathAnimTimer = deathAnimTimerMax;
 
                 // Death sound
-                if (audioManager != null)
-                    audioManager.PlaySFX("SFX_PlayerDeath");
+                // if (audioManager != null)
+                    // audioManager.PlaySFX("SFX_PlayerDeath");
             }
         }
 
@@ -666,8 +671,8 @@ namespace StarterAssets
                 gameManager.PlayerDeath();
 
             // Respawn sound
-            if (audioManager != null)
-                audioManager.PlaySFX("SFX_PlayerRespawn");
+            // if (audioManager != null)
+                // audioManager.PlaySFX("SFX_PlayerRespawn");
 
             // Reset vars
             active          = true;
