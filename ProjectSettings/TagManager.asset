@@ -15,6 +15,7 @@ TagManager:
   - MusicTrigger
   - Spike
   - TempLvl2Trigger
+  - Geyser
   layers:
   - Default
   - TransparentFX

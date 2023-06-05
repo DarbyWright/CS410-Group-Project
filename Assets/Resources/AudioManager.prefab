@@ -53,6 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad30f60d5d6874cf287fc2ba82652856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxVolume: 1
+  musicVolume: 1
   sfxSounds:
   - name: SFX_PlayerJump
     clip: {fileID: 8300000, guid: 44a82149928854738b6eb1bab8752a3e, type: 3}
@@ -102,6 +104,12 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 1
+  - name: SFX_Geyser_3
+    clip: {fileID: 8300000, guid: 87d786fe3e12949a68b48c632adf627b, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 1.59
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}

@@ -527,6 +527,12 @@ public class PlayerController : MonoBehaviour {
             if (!(x == respawnPos.x && y == respawnPos.y & z == respawnPos.z))
                 SetCheckPoint(x, y, z, true);
         }
+
+        // Geysers
+        if (other.gameObject.CompareTag("Geyser")) {
+            Jump(jumpStrength);
+            Debug.Log("Geyser activated");
+        }
     }
 
 
@@ -539,6 +545,8 @@ public class PlayerController : MonoBehaviour {
             collision.gameObject.CompareTag("OutOfBounds")) {
             DeathAnim();
         }
+
+        
     }
 
 

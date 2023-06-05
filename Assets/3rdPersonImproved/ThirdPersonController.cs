@@ -220,6 +220,8 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _doubleJumpTimeoutDelta = DoubleJumpTimeout; // *** Added ***
             _fallTimeoutDelta = FallTimeout;
+
+            SetCheckPoint(0, 15, 0, false); // Set default spawn
         }
 
         private void Update()
@@ -626,6 +628,17 @@ namespace StarterAssets
                 DieAndRespawn();
             }
 
+            // Geysers
+            if (other.gameObject.CompareTag("Geyser")) {
+                _verticalVelocity = 50f;
+                if (audioManager != null) {
+                    audioManager.PlaySFX("SFX_Geyser_3");
+                }
+                ParticleSystem geyser_PS = other.GetComponent<ParticleSystem>(); 
+                geyser_PS.Play();
+                Debug.Log("Geyser activated");
+            }
+
             // *** Attempting to fix respwan issues ***
             // if (other.gameObject.CompareTag("OutOfBounds")) {
             //     DieAndRespawn();
@@ -665,6 +678,11 @@ namespace StarterAssets
         void SetCheckPoint(float x, float y, float z, bool sound) {
             respawnPos = new Vector3(x, y, z);
 
+            // Update spawnpoint
+            if (gameManager != null) {
+                gameManager.SetSpawn(respawnPos);
+            }
+
             // Collectable sound
             if (audioManager != null && sound)
                 audioManager.PlaySFX("SFX_Collectable");
@@ -683,7 +701,9 @@ namespace StarterAssets
 
         // Die and respawn
         void DieAndRespawn() {
-            
+            dead = true;
+            _verticalVelocity = 0f;
+            _speed = 0f;
             transform.position = respawnPos;
 
             // Update death counter

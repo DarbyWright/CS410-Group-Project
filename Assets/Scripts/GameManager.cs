@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     public TextMeshProUGUI GlideStatus;
     public int deathCount       = 0;
     public float totalGameTime  = 0f;
+    public Vector3 respawnPos;
 
 
     // Awake is called before start - ininitialize
@@ -84,6 +85,10 @@ public class GameManager : MonoBehaviour {
         DoubleJumpStatus.text = (hasDoubleJump ? "True" : "False") + "\n";
         DashStatus.text = (hasDash ? "True" : "False") + "\n";
         GlideStatus.text =(hasGlide ? "True" : "False") + "\n";
+        // UI.text = "- UI -\n";
+        // UI.text += "deaths: " + deathCount.ToString() + "\n";
+        // UI.text += "time: " + string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
+        // UI.text += "current spawnpoint: X = " + respawnPos.x.ToString() + "Y = " + respawnPos.y.ToString() + "Z = " + respawnPos.z.ToString() + "\n";
         //UI.text += "time: " + string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds) + "\n";
     }
 
@@ -110,5 +115,10 @@ public class GameManager : MonoBehaviour {
     public void PlayerDeath() {
         Debug.Log("deathCount: " + deathCount);
         deathCount++;
+    }
+
+    public void SetSpawn(Vector3 newRespawnPos) {
+        respawnPos = newRespawnPos;
+        Debug.Log("set new spawn: " + respawnPos.x + " " + respawnPos.x + " " + respawnPos.z);
     }
 }
