@@ -16,6 +16,7 @@ TagManager:
   - Spike
   - TempLvl2Trigger
   - Geyser
+  - Sign
   layers:
   - Default
   - TransparentFX
