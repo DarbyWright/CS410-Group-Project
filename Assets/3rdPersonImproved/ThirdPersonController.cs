@@ -674,12 +674,14 @@ namespace StarterAssets
             if (other.gameObject.CompareTag("Enemy"))
             {
                 // DeathAnim();
+                dead = true;
                 DieAndRespawn();
             }
 
             if (other.gameObject.CompareTag("OutOfBounds")) 
             {
                 // DeathAnim();
+                dead = true;
                 DieAndRespawn();
             }
         }
@@ -752,6 +754,8 @@ namespace StarterAssets
             // Respawn sound
             if (audioManager != null)
                 audioManager.PlaySFX("SFX_PlayerRespawn");
+
+            dead = false;
         }
     }
 }
