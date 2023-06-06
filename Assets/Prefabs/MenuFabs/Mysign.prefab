@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2689983703069345606}
+  - component: {fileID: 6053197974803335020}
   m_Layer: 0
   m_Name: Mysign
   m_TagString: Untagged
@@ -34,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 4.283, y: -50.221, z: -11.325}
+--- !u!65 &6053197974803335020
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2421272370319923035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2310784, y: 1, z: 5.410486}
+  m_Center: {x: 0.0193056, y: 0.99997497, z: -0.027272653}
 --- !u!1001 &4266948569749923220
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -44,7 +44,6 @@ public class UIPopupController : MonoBehaviour
     void OpenPopUp()
     {
         checkForInput = false;
-        Time.timeScale = 0f;
         onScreen = true;
         PopupCanvas.SetActive(true);
     }
@@ -53,7 +52,6 @@ public class UIPopupController : MonoBehaviour
     void ClosePopUp()
     {
         onScreen = false;
-        Time.timeScale = 1f;
         PopupCanvas.SetActive(false);
     }
 
