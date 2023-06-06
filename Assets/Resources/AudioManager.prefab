@@ -110,6 +110,12 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 1.59
+  - name: SFX_Jetpack
+    clip: {fileID: 8300000, guid: 82f736be6b4bd4d308a02567cdab7482, type: 3}
+    loop: 1
+    harmonize: 0
+    volume: 1
+    pitch: 1.59
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}

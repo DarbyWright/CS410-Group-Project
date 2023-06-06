@@ -131,6 +131,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
+        private ParticleSystem _particleSystem;
 
         private const float _threshold = 0.01f;
 
@@ -162,6 +163,11 @@ namespace StarterAssets
         // Jumping
         bool didJump       = false;
         bool didDoubleJump = false;
+
+        // Gliding
+        bool isGliding = false;
+        int glidingDelayTimer = 0;  // Time player must try and glide before sound/effects are made
+        int glidingDelayTimerMax = 3 * 60;
 
         // Dash
         int dashCooldown      = 0;
@@ -208,6 +214,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            _particleSystem = GetComponent<ParticleSystem>();
 #if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -315,6 +322,13 @@ namespace StarterAssets
                 targetSpeed = DashSpeed;
             else
                 _input.dash = false;
+
+            if (!_input.glide && isGliding) {    // Now that player is grounded, if they were gliding,
+                    audioManager.StopSFX("SFX_Jetpack"); // Stop Jetpack sound
+                    _particleSystem.Stop(); // Turn off jetpack
+                    isGliding = false;
+                    glidingDelayTimer = glidingDelayTimerMax;
+                }
             // -----------------------------------------------------
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -391,6 +405,13 @@ namespace StarterAssets
 
                 didJump = false;
                 didDoubleJump = false; // *** Added ***
+
+                if (isGliding) {    // Now that player is grounded, if they were gliding,
+                    audioManager.StopSFX("SFX_Jetpack"); // Stop Jetpack sound
+                    _particleSystem.Stop(); // Turn off jetpack
+                    isGliding = false;
+                    glidingDelayTimer = glidingDelayTimerMax;
+                }
 
                 // update animator if using character
                 if (_hasAnimator)
@@ -488,10 +509,30 @@ namespace StarterAssets
             // ***Super simple Glide. Just reducing gravity but only if the playuer is moving down***
             if (_input.glide && canGlide)
             {
+
                 if (_verticalVelocity < 0.0f)
                     _verticalVelocity += Gravity * GlideGravity * Time.deltaTime;
                 else
                     _verticalVelocity += Gravity * Time.deltaTime;
+
+                // Use a delay timer to wait to see if user is trying to glide for a few frames before making sound/particles
+                if (glidingDelayTimer <= 0) {
+                    // Check if characacter is already gliding -- to prevent starting audio/particle clips every frame
+                    if (!isGliding) {
+                        _particleSystem.Play();
+                        audioManager.PlaySFX("SFX_Jetpack");
+                    }
+                    isGliding = true;
+                }
+
+                if (!isGliding) {
+                    glidingDelayTimer--;
+                }
+                else {
+                    glidingDelayTimer = glidingDelayTimerMax;
+                }
+                
+                
             }
             // ---------------------------------------------------------------------------------------
 

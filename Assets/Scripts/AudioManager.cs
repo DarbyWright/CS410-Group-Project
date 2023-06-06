@@ -165,6 +165,21 @@ public class AudioManager : MonoBehaviour {
         ambientSources[ambIndex].PlayOneShot(amb.clip, amb.volume * musicVolume);
     }
 
+    // Stop a sound effect
+    public void StopSFX(string name) {
+
+        // Find sound effect
+        Sound sfx = Array.Find(sfxSounds, x => x.name == name);
+        if (sfx == null) {
+            Debug.Log("missing " + name);
+            return;
+        }
+
+        sfxSource.Stop();
+    }
+
+
+
 
     // Change the variation of a music track
     public void SwitchMusicVar(int vari) {
