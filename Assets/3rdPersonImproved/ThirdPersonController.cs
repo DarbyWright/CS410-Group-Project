@@ -178,7 +178,6 @@ namespace StarterAssets
         public bool active = true;
 
         // Death, animation time, and respawn location
-        float deathPlane      = -25f;
         int deathAnimTimer    = 0;
         int deathAnimTimerMax = 2 * 60;
         public Vector3 respawnPos;
@@ -237,10 +236,8 @@ namespace StarterAssets
 
             handleTimers(); // *** Added ***
 
-            if(!dead)
-            {
-                Move();
-            }
+            Move();
+
             JumpAndGravity();
             GroundedCheck();
 
@@ -248,7 +245,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-           //if paused disable camera since it is immune to timeScale changes
+           // *** if paused disable camera since it is immune to timeScale changes ***
             if(!PauseMenu.Paused)
                 CameraRotation();
         }
@@ -305,8 +302,8 @@ namespace StarterAssets
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
 
-            // -----------------------------------------------------
-            // ***Dashing currently just increases target speed***
+            // ----------------------------------------------------------------------------------------
+            // *** Dashing currently just increases target speed ***
             if (_input.dash && canDash && dashCooldown <= 0)
             {
                 dashCooldown = dashCooldownMax;
@@ -329,7 +326,7 @@ namespace StarterAssets
                     isGliding = false;
                     glidingDelayTimer = glidingDelayTimerMax;
                 }
-            // -----------------------------------------------------
+            // ----------------------------------------------------------------------------------------
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -505,8 +502,8 @@ namespace StarterAssets
                 // -----------------------------------------------------------------------------
             }
 
-            // ---------------------------------------------------------------------------------------
-            // ***Super simple Glide. Just reducing gravity but only if the playuer is moving down***
+            // --------------------------------------------------------------------------------------------------------------
+            // *** Super simple Glide. Just reducing gravity but only if the playuer is moving down ***
             if (_input.glide && canGlide)
             {
 
@@ -534,7 +531,7 @@ namespace StarterAssets
                 
                 
             }
-            // ---------------------------------------------------------------------------------------
+            // ---------------------------------------------------------------------------------------------------------------
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
             else if (_verticalVelocity < _terminalVelocity)
@@ -585,7 +582,7 @@ namespace StarterAssets
         }
 // -------------------------------------------------------------------------------------------------------------------------------------------------
         // Everything above was from the ThirdPersonController package (excewpt sections with dashed lines or lines with *** Added ***).
-        // Everything below was copied over from from the other player controller script and adapted to work in this one.
+        // Everything below was copied over from our other original player controller script and adapted to work in this one.
 
         void handleTimers() {
 
@@ -618,8 +615,6 @@ namespace StarterAssets
             if (other.gameObject.CompareTag("ItemDoubleJump")) {
                 gameManager.GotDoubleJump();
                 canDoubleJump = true;
-                // transform.position = new Vector3 (0f, 0f, 0f);
-                // SetCheckPoint(37f, -11f, -58, false);
                 SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
                 Destroy(other.gameObject);
 
@@ -664,11 +659,6 @@ namespace StarterAssets
                 Destroy(other.gameObject);
             }
 
-            if (other.gameObject.CompareTag("Enemy"))
-            {
-                DieAndRespawn();
-            }
-
             // Geysers
             if (other.gameObject.CompareTag("Geyser")) {
                 _verticalVelocity = 50f;
@@ -680,39 +670,39 @@ namespace StarterAssets
                 Debug.Log("Geyser activated");
             }
 
-            // *** Attempting to fix respwan issues ***
-            // if (other.gameObject.CompareTag("OutOfBounds")) {
-            //     DieAndRespawn();
-            //     // gameManager.GotGlide();
-            //     // canGlide = true;
-            //     // SetCheckPoint(other.transform.position.x, other.transform.position.y, other.transform.position.z, false);
-            //     // Destroy(other.gameObject);
+            // Death and Respawning
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                // DeathAnim();
+                DieAndRespawn();
+            }
 
-            //     // // Item Jingle
-            //     // if (audioManager != null)
-            //     //     audioManager.PlaySFX("SFX_SpecialEvent");
-            // }
-        }
-
-        // Collide with objects
-        void OnControllerColliderHit(ControllerColliderHit collision) {
-
-            // If a projectile hits player, die
-            if (CanDieFromCollision(collision)){
-                if(!dead)
-                {
-                    dead = true;
-                    DieAndRespawn();   
-                }
+            if (other.gameObject.CompareTag("OutOfBounds")) 
+            {
+                // DeathAnim();
+                DieAndRespawn();
             }
         }
 
+        // Collide with objects
+        // void OnControllerColliderHit(ControllerColliderHit collision) {
 
-        bool CanDieFromCollision(ControllerColliderHit collision)
-        {
-            return collision.gameObject.CompareTag("Enemy") ||
-                   collision.gameObject.CompareTag("OutOfBounds");
-        }
+        //     // If a projectile hits player, die
+        //     if (CanDieFromCollision(collision)){
+        //         if(!dead)
+        //         {
+        //             dead = true;
+        //             DieAndRespawn();   
+        //         }
+        //     }
+        // }
+
+
+        // bool CanDieFromCollision(ControllerColliderHit collision)
+        // {
+        //     return collision.gameObject.CompareTag("Enemy") ||
+        //            collision.gameObject.CompareTag("OutOfBounds");
+        // }
 
 
         // Update the player's respawn position
@@ -735,25 +725,19 @@ namespace StarterAssets
                 deathAnimTimer = deathAnimTimerMax;
 
                 // Death sound
-                // if (audioManager != null)
-                    // audioManager.PlaySFX("SFX_PlayerDeath");
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_PlayerDeath");
             }
         }
 
         // Die and respawn
-        void DieAndRespawn() {
-            dead = true;
+        public void DieAndRespawn() {
             _verticalVelocity = 0f;
             _speed = 0f;
-            transform.position = respawnPos;
 
             // Update death counter
             if (gameManager != null)
                 gameManager.PlayerDeath();
-
-            // Respawn sound
-            // if (audioManager != null)
-                // audioManager.PlaySFX("SFX_PlayerRespawn");
 
             // Reset vars
             active          = true;
@@ -763,8 +747,11 @@ namespace StarterAssets
             dashCooldown = 0;
 
             // Set position
-            // transform.position = respawnPos;
-            dead = false;
+            transform.position = respawnPos;
+
+            // Respawn sound
+            if (audioManager != null)
+                audioManager.PlaySFX("SFX_PlayerRespawn");
         }
     }
 }
