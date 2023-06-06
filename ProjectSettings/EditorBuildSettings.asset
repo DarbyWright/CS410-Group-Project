@@ -9,17 +9,26 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/Demo.unity
+    path: Assets/Scenes/Test Scenes and Backups/Demo.unity
     guid: f350523ce78ba45f68b51a2d1ef0a6bc
   - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: f48fc7d0e174d48499d2208b09d8dee2
+  - enabled: 0
+    path: Assets/Scenes/Old Hubworld.unity
+    guid: 2eba0d6aabb97d74b82c8e84565cdb1b
   - enabled: 1
     path: Assets/Scenes/Hubworld.unity
-    guid: 2eba0d6aabb97d74b82c8e84565cdb1b
+    guid: 48cb27d1570294385ba88b85397b3c8c
   - enabled: 1
     path: Assets/Scenes/Level 1 (Crystal Caverns).unity
     guid: d59bb2579b2b405448e854d467101fea
+  - enabled: 1
+    path: Assets/Scenes/Level 2 (Abandoned Mines).unity
+    guid: 21a669ff70a384ba9a02445eef6496a8
+  - enabled: 1
+    path: Assets/Scenes/Level 3 (Canyon).unity
+    guid: 8d69ae2a8d2454c64ab23a95532df017
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}
