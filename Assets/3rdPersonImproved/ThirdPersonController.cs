@@ -183,6 +183,7 @@ namespace StarterAssets
         public Vector3 respawnPos;
 
         public bool dead = false;
+        public bool hasKey = false;
 
 // -----------------------------------------------------------------------------------------------
 
@@ -704,6 +705,29 @@ namespace StarterAssets
                 // DeathAnim();
                 dead = true;
                 DieAndRespawn();
+            }
+
+            if (other.gameObject.CompareTag("Key")) 
+            {
+                hasKey = true;
+                Destroy(other.gameObject);
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_SpecialEvent");
+                Debug.Log("Key Aquired");
+            }
+
+            if (other.gameObject.CompareTag("LockedGate")) 
+            {
+                if (hasKey) {
+                    Destroy(other.gameObject);
+                    
+                    // Door unlock sound
+                    if (audioManager != null)
+                        audioManager.PlaySFX("SFX_UnlockDoor");
+                    Debug.Log("Door Unlocked");
+                }
+                
             }
 
             // LEVEL COMPLETEIONS                               //////////////// TODO

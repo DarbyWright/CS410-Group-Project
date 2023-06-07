@@ -116,6 +116,12 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 1.59
+  - name: SFX_UnlockDoor
+    clip: {fileID: 8300000, guid: 37127e43caf2648c4937b13a21a03404, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}

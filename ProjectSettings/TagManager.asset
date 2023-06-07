@@ -21,6 +21,8 @@ TagManager:
   - Complete_Level2
   - Complete_Level3
   - Complete_Level4
+  - Key
+  - LockedGate
   layers:
   - Default
   - TransparentFX
