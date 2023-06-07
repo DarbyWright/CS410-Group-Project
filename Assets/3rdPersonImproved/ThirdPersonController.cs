@@ -227,7 +227,7 @@ namespace StarterAssets
             _doubleJumpTimeoutDelta = DoubleJumpTimeout; // *** Added ***
             _fallTimeoutDelta = FallTimeout;
 
-            SetCheckPoint(0, 15, 0, false); // Set default spawn
+            SetCheckPoint(0, -4, 0, false); // Set default spawn
         }
 
         private void Update()
@@ -294,8 +294,29 @@ namespace StarterAssets
 
         private void Move()
         {
-            if (_input.respawn)
-                _controller.Move(respawnPos);
+            // Player hits respawn button -- doesn't count as death?
+            if (_input.respawn) { 
+                _verticalVelocity = 0f;
+                _speed = 0f;
+
+                // Update death counter // Uncomment if want to count this as a death
+                // if (gameManager != null)
+                //     gameManager.PlayerDeath();
+
+                // Reset vars
+                active          = true;
+                didDoubleJump   = false;
+                _speed = 0;
+                _verticalVelocity = 0;
+                dashCooldown = 0;
+
+                // Set position
+                transform.position = respawnPos;
+                
+                // Respawn sound
+                // if (audioManager != null)
+                //     audioManager.PlaySFX("SFX_PlayerRespawn");
+            }
             // else
             //     _input.respawn = false;
 
@@ -684,7 +705,53 @@ namespace StarterAssets
                 dead = true;
                 DieAndRespawn();
             }
-        }
+
+            // LEVEL COMPLETEIONS                               //////////////// TODO
+            // Complete Level 1
+            if (other.gameObject.CompareTag("Complete_Level1")) 
+            {
+                // TODO
+
+                Destroy(other.gameObject);
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_LevelComplete");
+                Debug.Log("Completed Level 1");
+            }
+
+            // Complete Level 2
+            if (other.gameObject.CompareTag("Complete_Level2")) 
+            {
+                // TODO
+                Destroy(other.gameObject);
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_LevelComplete");
+                Debug.Log("Completed Level 2");
+            }
+
+            // Complete Level 3
+            if (other.gameObject.CompareTag("Complete_Level3")) 
+            {
+                // TODO
+                Destroy(other.gameObject);
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_LevelComplete");
+                Debug.Log("Completed Level 3");
+            }
+
+            // Complete the game
+            if (other.gameObject.CompareTag("Complete_Level4")) 
+            {
+                // TODO
+                Destroy(other.gameObject);
+                // Item Jingle
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_LevelComplete");
+                Debug.Log("Completed Level 4");
+            }
+        }                                                    ////////////////////////////////
 
         // Collide with objects
         // void OnControllerColliderHit(ControllerColliderHit collision) {

@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u0421oin"
       objectReference: {fileID: 0}
+    - target: {fileID: 1993272356339634, guid: e3df14a44368b9c47a6175eebd31535d, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4257528672847878, guid: e3df14a44368b9c47a6175eebd31535d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -177,6 +181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4257528672847878, guid: e3df14a44368b9c47a6175eebd31535d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 299732307421576977, guid: e3df14a44368b9c47a6175eebd31535d,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

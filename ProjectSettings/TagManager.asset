@@ -17,6 +17,10 @@ TagManager:
   - TempLvl2Trigger
   - Geyser
   - Sign
+  - Complete_Level1
+  - Complete_Level2
+  - Complete_Level3
+  - Complete_Level4
   layers:
   - Default
   - TransparentFX
