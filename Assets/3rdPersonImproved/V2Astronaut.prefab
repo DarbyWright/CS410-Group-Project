@@ -5336,14 +5336,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.3
-  JumpHeight: 8
+  JumpHeight: 3.5
   Gravity: -40
   GlideGravity: 0.13
   JumpTimeout: 0.3
   DoubleJumpTimeout: 0.1
   FallTimeout: 0.15
   Grounded: 1
-  GroundedOffset: -0.15
+  GroundedOffset: -0.2
   GroundedRadius: 0.5
   GroundLayers:
     serializedVersion: 2
@@ -5359,6 +5359,7 @@ MonoBehaviour:
   active: 0
   respawnPos: {x: 0, y: 0, z: 0}
   dead: 0
+  hasKey: 0
 --- !u!114 &5885216827943657505
 MonoBehaviour:
   m_ObjectHideFlags: 0
