@@ -721,7 +721,7 @@ namespace StarterAssets
             {
                 if (hasKey) {
                     Destroy(other.gameObject);
-                    
+
                     // Door unlock sound
                     if (audioManager != null)
                         audioManager.PlaySFX("SFX_UnlockDoor");
