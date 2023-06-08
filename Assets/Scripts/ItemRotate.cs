@@ -5,12 +5,16 @@ using UnityEngine;
 public class ItemRotate : MonoBehaviour {
 
     public float speed = 2.0f;
+    public int axis    = 1;
 
     // Update is called once per frame
     void Update() {
-        // Rotate the game object that this script is attached to by 15 in the X axis,
-        // 30 in the Y axis and 45 in the Z axis, multiplied by deltaTime in order to make it per second
-        // rather than per frame.
-        transform.Rotate(new Vector3 (40, 25, 45) * (speed * Time.deltaTime));
+        // Rotate the object by 45 degrees across the axis per second
+        if (axis == 0)
+            transform.Rotate(new Vector3 (45, 0, 0) * (speed * Time.deltaTime));
+        if (axis == 1)
+            transform.Rotate(new Vector3 (0, 45, 0) * (speed * Time.deltaTime));
+        if (axis == 2)
+            transform.Rotate(new Vector3 (0, 0, 45) * (speed * Time.deltaTime));
     }
 }
