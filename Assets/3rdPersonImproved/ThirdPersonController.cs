@@ -734,7 +734,8 @@ namespace StarterAssets
             // Complete Level 1
             if (other.gameObject.CompareTag("Complete_Level1")) 
             {
-                gameManager.finishedCave = true;
+                gameManager.GotCave();
+                Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
                     audioManager.PlaySFX("SFX_LevelComplete");
@@ -743,7 +744,8 @@ namespace StarterAssets
             // Complete Level 2
             if (other.gameObject.CompareTag("Complete_Level2")) 
             {
-                gameManager.finishedMine = true;
+                gameManager.GotMine();
+                Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
                     audioManager.PlaySFX("SFX_LevelComplete");
@@ -752,7 +754,8 @@ namespace StarterAssets
             // Complete Level 3
             if (other.gameObject.CompareTag("Complete_Level3")) 
             {
-                gameManager.finishedCanyon = true;
+                gameManager.GotCanyon();
+                Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
                     audioManager.PlaySFX("SFX_LevelComplete");

@@ -24,7 +24,6 @@ public class SpikeTrigger : MonoBehaviour
         if (moveObject) // Extend
         {
             Invoke("SpikeDelay", 0.3f);
-            audioManager.PlaySFX("SFX_SpikeExtend");
         }
         else { // Retract
             Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
@@ -42,6 +41,7 @@ public class SpikeTrigger : MonoBehaviour
 
     void SpikeDelay()
     {
+        audioManager.PlaySFX("SFX_SpikeExtend");
         Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
     }
 

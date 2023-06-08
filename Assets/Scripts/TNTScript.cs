@@ -32,7 +32,7 @@ public class TNTScript : MonoBehaviour
 
     public IEnumerator WaitForExplosion()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         gameManager.TNTExploded = true;
         gameObject.SetActive(false);
     }

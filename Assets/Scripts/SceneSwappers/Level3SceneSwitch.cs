@@ -7,10 +7,12 @@ public class Level3SceneSwitch : MonoBehaviour
 {
     FadeInOut fade;
     private int sceneNumber;
+    GameManager gameManager;
     void Start()
     {
         sceneNumber = SceneManager.GetActiveScene().buildIndex;
         fade = FindAnyObjectByType<FadeInOut>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
 
@@ -29,6 +31,7 @@ public class Level3SceneSwitch : MonoBehaviour
         }
         else
         {
+            gameManager.UpdateAbilities(4);
             StartCoroutine(ChangeScene(1));
         }
     }

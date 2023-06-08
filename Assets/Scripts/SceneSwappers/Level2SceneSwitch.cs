@@ -31,6 +31,7 @@ public class Level2SceneSwitch : MonoBehaviour
         }
         else
         {
+            gameManager.UpdateAbilities(3);
             StartCoroutine(ChangeScene(1));
         }
     }

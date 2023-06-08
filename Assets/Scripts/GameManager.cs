@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     public int deathCount       = 0;
     public float totalGameTime  = 0f;
     public Vector3 respawnPos;
+    public Vector3 sceneSwapRespawnPoint;
 
 
     // Awake is called before start - ininitialize
@@ -90,9 +91,9 @@ public class GameManager : MonoBehaviour {
         DeathCount.text = deathCount.ToString() + "\n";
         TotalTime.text = string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
 
-        DoubleJumpStatus.text = (finishedCave ? "True" : "False") + "\n";
-        DashStatus.text = (finishedMine ? "True" : "False") + "\n";
-        GlideStatus.text =(finishedCanyon ? "True" : "False") + "\n";
+        DoubleJumpStatus.text = (finishedCave ? "Collected" : "Missing") + "\n";
+        DashStatus.text = (finishedMine ? "Collected" : "Missing") + "\n";
+        GlideStatus.text =(finishedCanyon ? "Collected" : "Missing") + "\n";
         // UI.text = "- UI -\n";
         // UI.text += "deaths: " + deathCount.ToString() + "\n";
         // UI.text += "time: " + string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
@@ -118,6 +119,19 @@ public class GameManager : MonoBehaviour {
         hasGlide = true;
     }
 
+    public void GotCave()
+    {
+        finishedCave = true;
+    }
+    public void GotMine()
+    {
+        finishedMine = true;
+    }
+
+    public void GotCanyon()
+    {
+        finishedCanyon = true;
+    }
 
     // Player dies
     public void PlayerDeath() {
@@ -128,6 +142,12 @@ public class GameManager : MonoBehaviour {
     public void SetSpawn(Vector3 newRespawnPos) {
         respawnPos = newRespawnPos;
         Debug.Log("set new spawn: " + respawnPos.x + " " + respawnPos.x + " " + respawnPos.z);
+    }
+
+    public void SetSpawnForSceneSwap(Vector3 newRespawnPos)
+    {
+        sceneSwapRespawnPoint = newRespawnPos;
+
     }
 
     public void UpdateAbilities(int currentScene)
