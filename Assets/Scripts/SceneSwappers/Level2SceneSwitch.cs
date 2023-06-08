@@ -5,21 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class Level2SceneSwitch : MonoBehaviour
 {
+    FadeInOut fade;
     private int sceneNumber;
+    GameManager gameManager;
     void Start()
     {
         sceneNumber = SceneManager.GetActiveScene().buildIndex;
+        gameManager = FindAnyObjectByType<GameManager>();
+        fade = FindAnyObjectByType<FadeInOut>();
+    }
+
+
+    public IEnumerator ChangeScene(int scene)
+    {
+        fade.FadeIn();
+        yield return new WaitForSeconds(fade.timeToFade);
+        SceneManager.LoadScene(scene);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (sceneNumber == 1)
         {
-            SceneManager.LoadScene(3);
+            StartCoroutine(ChangeScene(3));
         }
         else
         {
-            SceneManager.LoadScene(1);
+            StartCoroutine(ChangeScene(1));
         }
     }
 }

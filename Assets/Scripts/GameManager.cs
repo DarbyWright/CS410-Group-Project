@@ -14,10 +14,18 @@ public class GameManager : MonoBehaviour {
     // inGame (not paused, cutscene, etc)
     public bool inGame;
 
+    //Walls in Lvl 2
+    public bool TNTExploded = false;
+
     // Unlockalble abilities
     public bool hasDoubleJump = false;
     public bool hasDash       = false;
     public bool hasGlide      = false;
+
+    // Stage MileStones
+    public bool finishedCave = false;
+    public bool finishedMine = false;
+    public bool finishedCanyon = false;
 
     // UI
     public TextMeshProUGUI DeathCount;
@@ -82,9 +90,9 @@ public class GameManager : MonoBehaviour {
         DeathCount.text = deathCount.ToString() + "\n";
         TotalTime.text = string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
 
-        DoubleJumpStatus.text = (hasDoubleJump ? "True" : "False") + "\n";
-        DashStatus.text = (hasDash ? "True" : "False") + "\n";
-        GlideStatus.text =(hasGlide ? "True" : "False") + "\n";
+        DoubleJumpStatus.text = (finishedCave ? "True" : "False") + "\n";
+        DashStatus.text = (finishedMine ? "True" : "False") + "\n";
+        GlideStatus.text =(finishedCanyon ? "True" : "False") + "\n";
         // UI.text = "- UI -\n";
         // UI.text += "deaths: " + deathCount.ToString() + "\n";
         // UI.text += "time: " + string.Format("{0:00}:{1:00}", minutes, seconds) + "\n";
@@ -120,5 +128,21 @@ public class GameManager : MonoBehaviour {
     public void SetSpawn(Vector3 newRespawnPos) {
         respawnPos = newRespawnPos;
         Debug.Log("set new spawn: " + respawnPos.x + " " + respawnPos.x + " " + respawnPos.z);
+    }
+
+    public void UpdateAbilities(int currentScene)
+    {
+        switch (currentScene)
+        {
+            case 2:
+                hasDoubleJump = hasDoubleJump && finishedCave;
+                break;
+            case 3:
+                hasDash = hasDash && finishedMine;
+                break;
+            case 4:
+                hasGlide = hasGlide && finishedCanyon;
+                break;
+        }
     }
 }

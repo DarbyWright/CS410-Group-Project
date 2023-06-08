@@ -9,18 +9,26 @@ public class SpikeTrigger : MonoBehaviour
     public Transform RetractPosition;
     public bool moveObject = false;
 
+    private AudioManager audioManager;
     private int extendedDurationMax = 60;
     private int extendedDuration = 0;
 
+
+    private void Start()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+    }
 
     void FixedUpdate()
     {
         if (moveObject) // Extend
         {
             Invoke("SpikeDelay", 0.3f);
+            audioManager.PlaySFX("SFX_SpikeExtend");
         }
         else { // Retract
             Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
+            audioManager.PlaySFX("SFX_SpikeRetract");
         }
         
         // Check if extended

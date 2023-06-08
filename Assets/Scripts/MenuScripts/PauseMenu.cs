@@ -9,6 +9,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseMenuCanvas;
     public GameObject SettingsMenuCanvas;
     public GameObject ControlsMenuCanvas;
+
+    FadeInOut fade;
+    GameManager manager;
     bool inSettings = false;
     bool inControls = false;
     
@@ -16,6 +19,7 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+        manager = FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -45,6 +49,13 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+
+    public IEnumerator ChangeScene(int scene)
+    {
+        fade.FadeIn();
+        yield return new WaitForSeconds(fade.timeToFade);
+        SceneManager.LoadScene(scene);
+    }
     void Pause()
     {
         Cursor.visible = true;
@@ -64,12 +75,18 @@ public class PauseMenu : MonoBehaviour
         inControls = !inControls;
     }
 
+    public void BackToHub()
+    {
+        fade = FindAnyObjectByType<FadeInOut>();
+        Play();
+        StartCoroutine(ChangeScene(1));
+        manager.UpdateAbilities(SceneManager.GetActiveScene().buildIndex);
+    }
     public void Play()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Paused = false;
-
         PauseMenuCanvas.SetActive(false);
         Time.timeScale = 1.0f;
     }
