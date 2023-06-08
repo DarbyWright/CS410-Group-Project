@@ -122,6 +122,42 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 2.31
+  - name: SFX_DynamiteExplode
+    clip: {fileID: 8300000, guid: 20695ebbaa538448fbb21560720c4382, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_SpikeExtend
+    clip: {fileID: 8300000, guid: 1ea8aaf4af57c405d94aa80c752698ce, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_SpikeRetract
+    clip: {fileID: 8300000, guid: 9cceeb40d4ca0453a932b516bddb64cf, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_BoneRattle1
+    clip: {fileID: 8300000, guid: fd6d648e2876643dfa78b091e0a30264, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_BoneRattle2
+    clip: {fileID: 8300000, guid: 9adcaa58aeaa249efa1c6798ec4c2770, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_SkeleHit
+    clip: {fileID: 8300000, guid: 97e5e77f3f85e4f839de0440c62423dc, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}

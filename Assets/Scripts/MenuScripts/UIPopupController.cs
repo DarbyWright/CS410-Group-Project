@@ -2,39 +2,49 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.OnScreen;
 
 public class UIPopupController : MonoBehaviour
 {
     public static bool Paused = false;
     public bool seenBefore = false;
-    public GameObject PopupCanvas;
-    public bool repeatable = true;
-    bool onScreen = false;
-    bool checkForInput = false;
+    public List<GameObject> popupPages;
 
 
+    private int currentPageIndex = 0;
+    private bool checkForInput = false;
+    private bool onScreen = false;
     private void Start()
     {
         Time.timeScale = 1.0f;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && onScreen)
+        //Check for input anytime player is within the trigger boundry
+        if (checkForInput && Input.GetKeyDown(KeyCode.E))
         {
-            ClosePopUp();
-        }
-        else if (checkForInput && Input.GetKeyDown(KeyCode.E) && repeatable)
-        {
-            OpenPopUp();
+            //If there is a menu on the screen and it is the last in a list, close it
+            if (currentPageIndex == popupPages.Count - 1 && onScreen)
+            {
+                ClosePopUp();
+            }
+            //If there is a menu on screen and there are more menus switch to the next one
+            else if (currentPageIndex < popupPages.Count && onScreen)
+            {
+                popupPages[currentPageIndex].gameObject.SetActive(false);
+                currentPageIndex = (currentPageIndex + 1) % popupPages.Count;
+                OpenPopUp();
+            }
+            else
+            {
+                OpenPopUp();
+            }
         }
     }
 
-
     public void HandlePopUp()
     {
-        if(!seenBefore)
+        if (!seenBefore)
         {
             seenBefore = true;
             OpenPopUp();
@@ -43,16 +53,15 @@ public class UIPopupController : MonoBehaviour
 
     void OpenPopUp()
     {
-        checkForInput = false;
         onScreen = true;
-        PopupCanvas.SetActive(true);
+        popupPages[currentPageIndex].SetActive(true);
     }
-
 
     void ClosePopUp()
     {
         onScreen = false;
-        PopupCanvas.SetActive(false);
+        popupPages[currentPageIndex].SetActive(false);
+        currentPageIndex = 0;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,5 +76,9 @@ public class UIPopupController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         checkForInput = false;
+        ClosePopUp();
     }
 }
+
+
+

@@ -9,9 +9,15 @@ public class SpikeTrigger : MonoBehaviour
     public Transform RetractPosition;
     public bool moveObject = false;
 
+    private AudioManager audioManager;
     private int extendedDurationMax = 60;
     private int extendedDuration = 0;
 
+
+    private void Start()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+    }
 
     void FixedUpdate()
     {
@@ -21,6 +27,7 @@ public class SpikeTrigger : MonoBehaviour
         }
         else { // Retract
             Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
+            audioManager.PlaySFX("SFX_SpikeRetract");
         }
         
         // Check if extended
@@ -34,6 +41,7 @@ public class SpikeTrigger : MonoBehaviour
 
     void SpikeDelay()
     {
+        audioManager.PlaySFX("SFX_SpikeExtend");
         Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
     }
 

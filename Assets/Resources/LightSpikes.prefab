@@ -5280,6 +5280,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
 --- !u!4 &379399431628911011 stripped
@@ -5358,6 +5368,16 @@ PrefabInstance:
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
@@ -5438,6 +5458,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -5.682
       objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
 --- !u!4 &3726100684824684032 stripped
@@ -5516,6 +5546,16 @@ PrefabInstance:
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 10.006
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
@@ -5596,6 +5636,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 8.561
       objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
 --- !u!4 &4494561878917943432 stripped
@@ -5674,6 +5724,16 @@ PrefabInstance:
     - target: {fileID: 4623209018381364, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -10.809
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050123207851189001, guid: 2344faec3c466074fbd21d2c604c8df2,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2344faec3c466074fbd21d2c604c8df2, type: 3}

@@ -43,7 +43,7 @@ public class SkeletonController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         
-        //Start randomly to help create openings for hut jumps
+        //Start randomly to help create openings
         Invoke(nameof(Patrolling), Random.Range(0f, 3f));
     }
 
@@ -72,6 +72,7 @@ public class SkeletonController : MonoBehaviour
             isRunning = false;
             inRange = false;
             animator.SetBool("inRange", false);
+            animator.SetBool("isRunning", false);
         }
 
         isMoving = true;
@@ -107,6 +108,7 @@ public class SkeletonController : MonoBehaviour
         if(Vector3.Distance(transform.position, agent.destination) < 6f)
         {
             animator.SetBool("inRange", true);
+            
         }
 
         if(Vector3.Distance(transform.position, agent.destination) > 10f && inRange)
@@ -117,6 +119,7 @@ public class SkeletonController : MonoBehaviour
         
         Vector3 direction = (player.transform.position - transform.position);
         agent.destination = player.transform.position;
+        direction.y = 0f;
         transform.rotation = Quaternion.LookRotation(direction);
         
     }
