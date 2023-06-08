@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3955426009538195152}
   - component: {fileID: 3955426009528631572}
-  - component: {fileID: 3955426010112545566}
+  - component: {fileID: 1181773256954614958}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3955426009538032304}
-  m_LocalRotation: {x: 0.007978337, y: 0.99839747, z: -0.0023892086, w: -0.05597525}
+  m_LocalRotation: {x: 0.007977052, y: 0.9983973, z: -0.0023876864, w: -0.055978023}
   m_LocalPosition: {x: 7.13, y: -17.95, z: 11.69}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.50000006, y: 0.50000006, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3955426009538195188}
@@ -56,7 +56,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3955426010112545566
+--- !u!114 &1181773256954614958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,10 +68,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e4a8069b8ae9c4493090bbd1771212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 6
   waypoints:
   - point: {fileID: 0}
-    isDropPoint: 1
+    isDropPoint: 0
+  - point: {fileID: 0}
+    isDropPoint: 0
+  - point: {fileID: 0}
+    isDropPoint: 0
   - point: {fileID: 0}
     isDropPoint: 0
   - point: {fileID: 0}
@@ -79,16 +83,8 @@ MonoBehaviour:
   - point: {fileID: 0}
     isDropPoint: 0
   - point: {fileID: 0}
-    isDropPoint: 1
-  - point: {fileID: 0}
     isDropPoint: 0
-  - point: {fileID: 0}
-    isDropPoint: 0
-  - point: {fileID: 0}
-    isDropPoint: 0
-  - point: {fileID: 0}
-    isDropPoint: 1
-  targetWaypointIndex: 0
+  targetWaypointIndex: 1
   startingWaypoint: {fileID: 0}
   rotationSpeed: 10
   rockPrefab: {fileID: 8783306491908617939, guid: e6bd9455b0fb9244b854cdb06a4936a1,

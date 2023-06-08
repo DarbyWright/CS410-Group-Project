@@ -8,7 +8,7 @@ using UnityEngine;
 public class BirdMovement : MonoBehaviour
 {
     // Speed of the bird's movement in meters per second.
-    public float speed = 2f;
+    public float speed = 6f;
 
     // Array of waypoints that define the bird's flight path.
     public Waypoint[] waypoints;
@@ -37,11 +37,12 @@ public class BirdMovement : MonoBehaviour
     void Update()
     {
         
+        //OnDrawGizmos();
         // Calculate the distance between the bird and its current target waypoint.
         float distanceToTarget = Vector3.Distance(transform.position, waypoints[targetWaypointIndex].point.transform.position);
 
         // If the bird is close enough to its target waypoint, move to the next waypoint.
-        if (distanceToTarget < 0.1f)
+        if (distanceToTarget < 1f)
         {
             targetWaypointIndex = (targetWaypointIndex + 1) % waypoints.Length;
 
@@ -68,6 +69,18 @@ public class BirdMovement : MonoBehaviour
         // Instantiate a new rock object at the drop point.
         Vector3 dropPoint = waypoints[targetWaypointIndex].point.transform.position + (transform.up * dropDistance);
         Instantiate(rockPrefab, dropPoint, Quaternion.identity);
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        if (waypoints == null || waypoints.Length < 2)
+            return;
+
+        for (int i = 0; i < waypoints.Length - 1; i++)
+        {
+            Gizmos.DrawLine(waypoints[i].point.transform.position, waypoints[i + 1].point.transform.position);
+        }
     }
 
 }
