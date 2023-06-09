@@ -730,6 +730,14 @@ namespace StarterAssets
                 
             }
 
+            if (other.gameObject.CompareTag("FallNoisePlane")) 
+            {
+                // Door unlock sound
+                if (audioManager != null)
+                    audioManager.PlaySFX("SFX_Falling");
+                Debug.Log("Fall Noise Triggered");
+            }
+
             // LEVEL COMPLETEIONS                               //////////////// TODO
             // Complete Level 1
             if (other.gameObject.CompareTag("Complete_Level1")) 

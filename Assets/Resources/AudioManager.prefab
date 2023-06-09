@@ -158,6 +158,12 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 2.31
+  - name: SFX_Falling
+    clip: {fileID: 8300000, guid: e5385ea1981ee46e1bfba4bf6ae30c6d, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}
@@ -204,6 +210,12 @@ MonoBehaviour:
   ambientTracks:
   - name: Amb_BirdsSounds
     clip: {fileID: 8300000, guid: a299bba978dbc43599d3f10f0d43c67d, type: 3}
+    loop: 1
+    harmonize: 0
+    volume: 0.75
+    pitch: 1
+  - name: Amb_Eagles
+    clip: {fileID: 8300000, guid: c2a24078d3a1a4bdf9493f666ca214c8, type: 3}
     loop: 1
     harmonize: 0
     volume: 0.75

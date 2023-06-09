@@ -23,6 +23,7 @@ TagManager:
   - Complete_Level4
   - Key
   - LockedGate
+  - FallNoisePlane
   layers:
   - Default
   - TransparentFX
