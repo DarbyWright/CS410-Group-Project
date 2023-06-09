@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour {
     public float totalGameTime  = 0f;
     public Vector3 respawnPos;
     public Vector3 sceneSwapRespawnPoint;
+    public List<String> seenSigns;
 
     // Awake is called before start - ininitialize
     void Awake() {
@@ -68,7 +70,6 @@ public class GameManager : MonoBehaviour {
 
         // Game start
         inGame = true;
-        var hash = new Hash128();
 
         // Get UI
         //if (UI == null)
