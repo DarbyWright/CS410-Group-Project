@@ -72,13 +72,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f867dfc64c77648498c5a631f5e4b0c4, type: 3}
     loop: 0
     harmonize: 0
-    volume: 1
+    volume: 0.75
     pitch: 1
   - name: SFX_PlayerDeath
     clip: {fileID: 8300000, guid: 4f7b9ac8a35bc49039bdd28cc3c29108, type: 3}
     loop: 0
     harmonize: 0
-    volume: 0.5
+    volume: 0.25
     pitch: 1
   - name: SFX_PlayerRespawn
     clip: {fileID: 8300000, guid: 2ac4e11a64681434387853ca1ba29191, type: 3}
@@ -102,7 +102,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 301e6a98f94cf40d7826c829dae161bd, type: 3}
     loop: 0
     harmonize: 0
-    volume: 1
+    volume: 0.75
     pitch: 1
   - name: SFX_Geyser_4
     clip: {fileID: 8300000, guid: 612372522879aec4c99405723d3a6d70, type: 3}
@@ -114,8 +114,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 82f736be6b4bd4d308a02567cdab7482, type: 3}
     loop: 1
     harmonize: 0
-    volume: 1
-    pitch: 1.59
+    volume: 0.5
+    pitch: 1
   - name: SFX_UnlockDoor
     clip: {fileID: 8300000, guid: 37127e43caf2648c4937b13a21a03404, type: 3}
     loop: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 49cbc858d27eb42bbb90fe02f344095b, type: 3}
     loop: 1
     harmonize: 0
-    volume: 0.25
+    volume: 0.35
     pitch: 1
   - name: TitleScreen
     clip: {fileID: 8300000, guid: 01fda6720ffce45aeabddea2072057ff, type: 3}
@@ -236,7 +236,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ba8ebd27e97724f929e739e3abd9d9d9, type: 3}
     loop: 1
     harmonize: 0
-    volume: 0.25
+    volume: 1
     pitch: 1
   sfxSource: {fileID: 1528540342}
   musicSources:
