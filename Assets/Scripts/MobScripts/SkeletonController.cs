@@ -33,6 +33,9 @@ public class SkeletonController : MonoBehaviour
     public bool isRunning = false;
     public bool inRange = false;
     Animator animator;
+    bool startChasing = false;
+    bool notSwung = true;
+    float swingCoolDown = 2f;
 
     void Start()
     {
@@ -51,10 +54,15 @@ public class SkeletonController : MonoBehaviour
     {
         //Check if player is near
         playerInRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
-
+        if(!notSwung)
+        {
+            swingCoolDown -= Time.deltaTime;
+        }
         
         if(!playerInRange)
         {
+            swingCoolDown = 3f;
+            notSwung = true;
             Patrolling();
         }
         else
@@ -73,6 +81,11 @@ public class SkeletonController : MonoBehaviour
             inRange = false;
             animator.SetBool("inRange", false);
             animator.SetBool("isRunning", false);
+        }
+
+        if(startChasing)
+        {
+            startChasing = false;
         }
 
         isMoving = true;
@@ -100,6 +113,7 @@ public class SkeletonController : MonoBehaviour
 
     void Chasing()
     {
+        startChasing = true;
         isRunning = true;
         animator.SetBool("isRunning", isRunning);
         //Speed up a bit and move towards player
@@ -108,7 +122,6 @@ public class SkeletonController : MonoBehaviour
         if(Vector3.Distance(transform.position, agent.destination) < 6f)
         {
             animator.SetBool("inRange", true);
-            
         }
 
         if(Vector3.Distance(transform.position, agent.destination) > 10f && inRange)
