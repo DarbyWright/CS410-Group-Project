@@ -133,15 +133,19 @@ public class AudioManager : MonoBehaviour {
             musicSources[i].clip   = music.clip;
             musicSources[i].loop   = music.loop;
             musicSources[i].volume = music.volume * musicVolume;
-            //Debug.Log(music.clip + " " + music.loop + " " + music.volume);
-            //musicSources[i].pitch  = 2f;// + 2/3f;
-            //Debug.Log(mus_name + " play " + variOffset);
             musicSources[i].Play();
         //}
 
         // Don't play again if it's the same ambience track
         if (ambTrack == amb_name) {
             //Debug.Log(amb_name + " already playing");
+            return;
+        }
+
+        // Stop ambience if empty
+        if (amb_name == "None" || amb_name == "") {
+            ambientSources[ambIndex].Stop();
+            ambTrack = "None";
             return;
         }
 
