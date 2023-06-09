@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class DelayedSceneSwap : MonoBehaviour
 {
+    GameManager gameManager;
+
     [SerializeField]
     private float delayBeforeLoading = 10f;
 
@@ -15,7 +17,7 @@ public class DelayedSceneSwap : MonoBehaviour
 
         if (timeElapsed > delayBeforeLoading)
         {
-            SceneManager.LoadScene(0);
+            Application.Quit();
         }
     }
 }

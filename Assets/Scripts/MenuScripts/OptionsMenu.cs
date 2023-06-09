@@ -16,10 +16,12 @@ public class OptionsMenu : MonoBehaviour
     
 
     AudioManager musicManager;
+    GameManager gameManager;
 
     private void Start()
     {
         musicManager = FindAnyObjectByType<AudioManager>();
+        gameManager = FindAnyObjectByType<GameManager>();
         UpdateValue();
     }
 
