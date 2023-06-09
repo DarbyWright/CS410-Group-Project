@@ -92,7 +92,7 @@ MonoBehaviour:
     type: 3}
   dropDistance: 20
   rockDropTimer: 0
-  rockDropInterval: 2.5
+  rockDropInterval: 1.5
 --- !u!135 &8170364651784922424
 SphereCollider:
   m_ObjectHideFlags: 0

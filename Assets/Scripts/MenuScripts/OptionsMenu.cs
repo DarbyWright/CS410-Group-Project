@@ -13,9 +13,13 @@ public class OptionsMenu : MonoBehaviour
     //Get text to display slider's current values
     public TextMeshProUGUI musicText;
     public TextMeshProUGUI sfxText;
+    
+
+    AudioManager musicManager;
 
     private void Start()
     {
+        musicManager = FindAnyObjectByType<AudioManager>();
         UpdateValue();
     }
 
@@ -27,22 +31,22 @@ public class OptionsMenu : MonoBehaviour
         sfxText.text = sfxSlider.value.ToString();
 
         //Pass along update to audio manager
-        AudioManager.instance.SFXVolume(sfxSlider.value / 100);
-        AudioManager.instance.MusicVolume(musicSlider.value / 100);
+        musicManager.SFXVolume(sfxSlider.value / 100);
+        musicManager.MusicVolume(musicSlider.value / 100);
     }
 
     public void MuteMusic()
     {
         musicSlider.value = 0;
         musicText.text = musicSlider.value.ToString();
-        AudioManager.instance.MusicVolume(0);
+        musicManager.MusicVolume(0);
     }
 
     public void MuteSFX()
     {
         sfxSlider.value = 0;
         sfxText.text = sfxSlider.value.ToString();
-        AudioManager.instance.SFXVolume(0);
+        musicManager.SFXVolume(0);
     }
 
     
