@@ -1,8 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.OnScreen;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class UIPopupController : MonoBehaviour
 {
@@ -14,10 +13,15 @@ public class UIPopupController : MonoBehaviour
     private int currentPageIndex = 0;
     private bool checkForInput = false;
     private bool onScreen = false;
+    private string uniqueID;
+
     private void Start()
     {
         Time.timeScale = 1.0f;
+        uniqueID = SceneManager.GetActiveScene().ToString() + "_" + gameObject.name;
     }
+
+
     void Update()
     {
         //Check for input anytime player is within the trigger boundry
@@ -42,11 +46,23 @@ public class UIPopupController : MonoBehaviour
         }
     }
 
+
+    void MarkSignAsSeen()
+    {
+        EditorPrefs.SetInt($"SignSeen_{uniqueID}", 1);
+    }
+
+    bool IsSignSeen()
+    {
+        int signSeen = EditorPrefs.GetInt($"SignSeen_{uniqueID}", 0);
+        return signSeen == 1;
+    }
+
     public void HandlePopUp()
     {
-        if (!seenBefore)
+        if (!IsSignSeen())
         {
-            seenBefore = true;
+            MarkSignAsSeen();
             OpenPopUp();
         }
     }

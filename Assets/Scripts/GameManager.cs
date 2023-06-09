@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
     public float totalGameTime  = 0f;
     public Vector3 respawnPos;
     public Vector3 sceneSwapRespawnPoint;
-
+    public Hash128 hash;
 
     // Awake is called before start - ininitialize
     void Awake() {
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
 
         // Game start
         inGame = true;
+        hash = new Hash128();
 
         // Get UI
         //if (UI == null)

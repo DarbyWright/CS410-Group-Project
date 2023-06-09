@@ -3841,6 +3841,11 @@ PrefabInstance:
       propertyPath: points.Array.data[3]
       value: 
       objectReference: {fileID: 2047464709}
+    - target: {fileID: 4635561536265279161, guid: 071697c80509bdc43ba36949f24fcdd9,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6782667309670242428, guid: 071697c80509bdc43ba36949f24fcdd9,
         type: 3}
       propertyPath: m_RootOrder
@@ -45308,7 +45313,7 @@ GameObject:
   - component: {fileID: 971771600}
   m_Layer: 3
   m_Name: InitialSpawn
-  m_TagString: Untagged
+  m_TagString: SpawnSetter
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55910,6 +55915,11 @@ PrefabInstance:
       propertyPath: points.Array.data[3]
       value: 
       objectReference: {fileID: 1625320380}
+    - target: {fileID: 4635561536265279161, guid: 071697c80509bdc43ba36949f24fcdd9,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6782667309670242428, guid: 071697c80509bdc43ba36949f24fcdd9,
         type: 3}
       propertyPath: m_RootOrder
@@ -60353,7 +60363,7 @@ MonoBehaviour:
   vari: 0
   amb_name: 
   volume: 1
-  autoStart: 0
+  autoStart: 1
   onlyOnce: 1
 --- !u!65 &1271651323
 BoxCollider:
