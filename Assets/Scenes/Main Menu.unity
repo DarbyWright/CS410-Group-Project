@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -744,8 +744,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4292120865
+  m_fontColor: {r: 0.12941177, g: 0.5686275, b: 0.83137256, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2281,7 +2281,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1033961368}
   - component: {fileID: 1033961369}
-  - component: {fileID: 1033961370}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -2318,22 +2317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2953b59876611f4bb9f235ea73b9918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1033961370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033961367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6929ef3cc4692348aedb9a7071fcb20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  fadein: 0
-  fadeout: 0
-  timeToFade: 1
 --- !u!1 &1061656941
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,8 +2519,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4292120865
+  m_fontColor: {r: 0.12941177, g: 0.5686275, b: 0.83137256, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2803,7 +2786,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 60
+  m_Value: 40
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3747,6 +3730,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794895664783044161, guid: 74f787b2bf0879748ae66c22860de27c,
+        type: 3}
+      propertyPath: m_Value
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3794895664783044161, guid: 74f787b2bf0879748ae66c22860de27c,
         type: 3}

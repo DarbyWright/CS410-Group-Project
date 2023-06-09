@@ -406,7 +406,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 5
   m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 150
@@ -442,6 +442,7 @@ MonoBehaviour:
   sightRange: 8
   isRunning: 0
   inRange: 0
+  willNotChase: 0
 --- !u!1 &2748282422418694191
 GameObject:
   m_ObjectHideFlags: 0

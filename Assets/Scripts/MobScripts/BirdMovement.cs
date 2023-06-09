@@ -26,18 +26,45 @@ public class BirdMovement : MonoBehaviour
     public GameObject rockPrefab;
 
     // Distance to drop the rock from the bird.
-    public float dropDistance = 1f;
+    public float dropDistance = 20f;
+    public float rockDropTimer = 0f;
+    public float rockDropInterval = 2.5f;
 
-
+    bool playerInRange = false;
+    CharacterController player;
     private void Start()
     {
         transform.position = startingWaypoint.transform.position;
+        player = FindAnyObjectByType<CharacterController>(); 
     }
 
     void Update()
     {
         
-        //OnDrawGizmos();
+        if(!playerInRange)
+        {
+            Patrol();
+        }
+        else
+        {
+            Pursue();
+        }
+
+    }
+    void DropRock()
+    {
+        Vector3 dropPosition = transform.position;
+        dropPosition.y -= 0.5f;
+        Instantiate(rockPrefab, dropPosition, Quaternion.identity);
+        rockDropTimer = 0f;
+    }
+
+    void Patrol()
+    {
+        if(speed != 6)
+        {
+            speed = 6;
+        }
         // Calculate the distance between the bird and its current target waypoint.
         float distanceToTarget = Vector3.Distance(transform.position, waypoints[targetWaypointIndex].point.transform.position);
 
@@ -45,14 +72,9 @@ public class BirdMovement : MonoBehaviour
         if (distanceToTarget < 1f)
         {
             targetWaypointIndex = (targetWaypointIndex + 1) % waypoints.Length;
-
-            // Check if the new waypoint is a drop point.
-            if (waypoints[targetWaypointIndex].isDropPoint)
-            {
-                DropRock();
-            }
         }
 
+        rockDropTimer += Time.deltaTime;
 
         // Calculate the direction to the target waypoint.
         Vector3 directionToTarget = (waypoints[targetWaypointIndex].point.transform.position - transform.position).normalized;
@@ -64,15 +86,33 @@ public class BirdMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
     }
 
-    void DropRock()
+
+    void Pursue()
     {
-        // Instantiate a new rock object at the drop point.
-        Vector3 dropPoint = waypoints[targetWaypointIndex].point.transform.position + (transform.up * dropDistance);
-        Instantiate(rockPrefab, dropPoint, Quaternion.identity);
+        speed = 8f;
+        // Calculate the distance between the bird and its current target waypoint.
+        float distanceToTarget = Vector3.Distance(transform.position, player.transform.position);
+
+        // Calculate the direction to the target waypoint.
+        Vector3 directionToTarget = (player.transform.position - transform.position).normalized;
+
+        directionToTarget.y = 0;
+
+        // Move the bird in the direction of the target waypoint.
+        transform.position += directionToTarget * speed * Time.deltaTime;
+
+        rockDropTimer += Time.deltaTime;
+
+        // Rotate the bird towards the direction of the target waypoint.
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+
+        if(distanceToTarget < dropDistance && (rockDropTimer >= rockDropInterval))
+        {
+            Invoke("DropRock", 0f);
+        }
     }
 
-
-    private void OnDrawGizmos()
+     private void OnDrawGizmos()
     {
         if (waypoints == null || waypoints.Length < 2)
             return;
@@ -81,6 +121,24 @@ public class BirdMovement : MonoBehaviour
         {
             Gizmos.DrawLine(waypoints[i].point.transform.position, waypoints[i + 1].point.transform.position);
         }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+        
     }
 
 }

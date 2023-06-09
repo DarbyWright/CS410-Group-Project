@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,6 +32,9 @@ public class MoleController : MonoBehaviour
     public bool inRange = false;
     Animator animator;
 
+
+    public bool willNotChase = false;
+
     void Start()
     {
         //Initialize agent, player, playerMask, start patrolling after random 0-3 seconds
@@ -50,7 +54,7 @@ public class MoleController : MonoBehaviour
         playerInRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
 
 
-        if (!playerInRange)
+        if (!playerInRange || willNotChase)
         {
             Patrolling();
         }
@@ -63,7 +67,7 @@ public class MoleController : MonoBehaviour
 
     void Patrolling()
     {
-        agent.speed = 4;
+        agent.speed = 5f;
         if (isRunning)
         {
             isRunning = false;
@@ -95,7 +99,7 @@ public class MoleController : MonoBehaviour
     {
         isRunning = true;
         //Speed up a bit and move towards player
-        agent.speed = 6f;
+        agent.speed = 8f;
 
         if (Vector3.Distance(transform.position, agent.destination) > 10f && inRange)
         {

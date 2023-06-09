@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3955426009538195152}
   - component: {fileID: 3955426009528631572}
   - component: {fileID: 1181773256954614958}
+  - component: {fileID: 8170364651784922424}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -63,12 +64,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3955426009538032304}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4e4a8069b8ae9c4493090bbd1771212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 5
   waypoints:
   - point: {fileID: 0}
     isDropPoint: 0
@@ -89,7 +90,22 @@ MonoBehaviour:
   rotationSpeed: 10
   rockPrefab: {fileID: 8783306491908617939, guid: e6bd9455b0fb9244b854cdb06a4936a1,
     type: 3}
-  dropDistance: 1
+  dropDistance: 20
+  rockDropTimer: 0
+  rockDropInterval: 2.5
+--- !u!135 &8170364651784922424
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955426009538032304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3955426009538032306
 GameObject:
   m_ObjectHideFlags: 0
