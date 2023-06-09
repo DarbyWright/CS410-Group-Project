@@ -219,6 +219,12 @@ MonoBehaviour:
     harmonize: 0
     volume: 0.75
     pitch: 1
+  - name: CreditScene
+    clip: {fileID: 8300000, guid: 738463ea7f3c0ef4d89949270485aa15, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 0.151
+    pitch: 1
   ambientTracks:
   - name: Amb_BirdsSounds
     clip: {fileID: 8300000, guid: a299bba978dbc43599d3f10f0d43c67d, type: 3}

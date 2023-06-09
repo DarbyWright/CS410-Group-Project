@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour {
     public Vector3 respawnPos;
     public Vector3 sceneSwapRespawnPoint;
     public List<String> seenSigns;
+    public AudioManager audioManager;
 
     // Awake is called before start - ininitialize
     void Awake() {
@@ -70,7 +72,6 @@ public class GameManager : MonoBehaviour {
 
         // Game start
         inGame = true;
-
         // Get UI
         //if (UI == null)
         //    UI = GetComponent<TextMeshProUGUI>();
@@ -163,13 +164,13 @@ public class GameManager : MonoBehaviour {
         switch (currentScene)
         {
             case 2:
-                hasDoubleJump = hasDoubleJump && finishedCave;
+                hasDoubleJump = finishedCave;
                 break;
             case 3:
-                hasDash = hasDash && finishedMine;
+                hasDash = finishedMine;
                 break;
             case 4:
-                hasGlide = hasGlide && finishedCanyon;
+                hasGlide = finishedCanyon;
                 break;
         }
     }

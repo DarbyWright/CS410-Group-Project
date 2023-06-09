@@ -7,7 +7,7 @@ public class EndGame : MonoBehaviour
 {
     GameManager gameManager;
     FadeInOut fade;
-    float winScreenDuration = 12f;
+    float winScreenDuration = 15f;
     bool startEndSequence = false;
     public Canvas winScreen; 
 
@@ -31,7 +31,7 @@ public class EndGame : MonoBehaviour
 
     public IEnumerator FinishGame(){
         fade.FadeIn();
-        yield return new WaitForSeconds(fade.timeToFade);
+        yield return new WaitForSeconds(fade.timeToFade * 2);
         SceneManager.LoadScene(5);
     }
 
