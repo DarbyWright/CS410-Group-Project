@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicTrigger : MonoBehaviour {
 
-    public string mus_name = "Mus_Hub_1";
+    public string mus_name = "Hub";
     public int vari        = 0;
     public string amb_name = "Amb_BirdsSounds";
     public float volume    = 1f;
@@ -38,7 +38,7 @@ public class MusicTrigger : MonoBehaviour {
             audioManager.PlayMusic(mus_name, vari, amb_name);
 
         // Volume
-        audioManager.MusicVolume(volume);
+        //audioManager.MusicVolume(volume);
 
         // Only change music on the first collision
         if (onlyOnce) {
