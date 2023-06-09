@@ -90,7 +90,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8d9d02f6eeae14d9390f1655d68ef6b7, type: 3}
     loop: 0
     harmonize: 0
-    volume: 0.75
+    volume: 0.25
     pitch: 1
   - name: SFX_SpecialEvent
     clip: {fileID: 8300000, guid: acf6fe426df3e4dd4bf8d4a01fc842e6, type: 3}
@@ -233,10 +233,10 @@ MonoBehaviour:
     volume: 0.75
     pitch: 1
   - name: Amb_Carts
-    clip: {fileID: 8300000, guid: 307c20b6386814d4990d504b6241c078, type: 3}
+    clip: {fileID: 8300000, guid: ba8ebd27e97724f929e739e3abd9d9d9, type: 3}
     loop: 1
     harmonize: 0
-    volume: 0.75
+    volume: 0.25
     pitch: 1
   sfxSource: {fileID: 1528540342}
   musicSources:
