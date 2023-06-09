@@ -11,6 +11,9 @@ public class InitialSpawnSetter : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        gameManager.SetSpawn(transform.position);
+        if (other.CompareTag("Player"))
+        {
+            gameManager.SetSpawn(transform.position);
+        }
     }
 }
