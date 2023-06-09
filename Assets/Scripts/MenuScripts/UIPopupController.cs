@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class UIPopupController : MonoBehaviour
@@ -14,11 +14,13 @@ public class UIPopupController : MonoBehaviour
     private bool checkForInput = false;
     private bool onScreen = false;
     private string uniqueID;
+    private GameManager gameManager;
 
     private void Start()
     {
         Time.timeScale = 1.0f;
         uniqueID = SceneManager.GetActiveScene().ToString() + "_" + gameObject.name;
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
 
@@ -49,13 +51,12 @@ public class UIPopupController : MonoBehaviour
 
     void MarkSignAsSeen()
     {
-        EditorPrefs.SetInt($"SignSeen_{uniqueID}", 1);
+        gameManager.seenSigns.Add(uniqueID);
     }
 
     bool IsSignSeen()
     {
-        int signSeen = EditorPrefs.GetInt($"SignSeen_{uniqueID}", 0);
-        return signSeen == 1;
+        return gameManager.seenSigns.Exists(x => x == uniqueID);
     }
 
     public void HandlePopUp()

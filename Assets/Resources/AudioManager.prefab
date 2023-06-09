@@ -164,6 +164,18 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 2.31
+  - name: SFX_BirdAmb
+    clip: {fileID: 8300000, guid: c2a24078d3a1a4bdf9493f666ca214c8, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
+  - name: SFX_BirdCry
+    clip: {fileID: 8300000, guid: 14f233d00fbf0440284c05d63c1207b4, type: 3}
+    loop: 0
+    harmonize: 0
+    volume: 1
+    pitch: 2.31
   musicTracks:
   - name: Hub
     clip: {fileID: 8300000, guid: 82230d72bc7ea459790fc9e454894ff9, type: 3}

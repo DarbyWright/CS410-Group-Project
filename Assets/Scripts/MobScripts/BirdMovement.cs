@@ -32,10 +32,13 @@ public class BirdMovement : MonoBehaviour
 
     bool playerInRange = false;
     CharacterController player;
+    AudioManager audioManager;
+
     private void Start()
     {
         transform.position = startingWaypoint.transform.position;
-        player = FindAnyObjectByType<CharacterController>(); 
+        player = FindAnyObjectByType<CharacterController>();
+        audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     void Update()
@@ -55,6 +58,7 @@ public class BirdMovement : MonoBehaviour
     {
         Vector3 dropPosition = transform.position;
         dropPosition.y -= 0.5f;
+        audioManager.PlaySFX("SFX_BirdCry");
         Instantiate(rockPrefab, dropPosition, Quaternion.identity);
         rockDropTimer = 0f;
     }
