@@ -30,19 +30,18 @@ public class MusicTrigger : MonoBehaviour {
 
     // Change which music or music variation is playing
     public void SwitchMusic() {
-        //Debug.Log("switch to " + mus_name + vari + amb_name);
 
         // Play
         AudioManager audioManager = FindObjectOfType<AudioManager>();
-        if (audioManager != null)
+        if (audioManager != null) {
             audioManager.PlayMusic(mus_name, vari, amb_name);
+        }
 
         // Volume
         //audioManager.MusicVolume(volume);
 
         // Only change music on the first collision
         if (onlyOnce) {
-            //Debug.Log("deactivate " + mus_name + vari + amb_name);
             gameObject.SetActive(false);
             //Destroy(gameObject);
         }

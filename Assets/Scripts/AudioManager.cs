@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour {
     public float musicVolume = 1f;
 
     // Crossfade music volume
-    static float crossfadeTime  = 120f;
+    static float crossfadeTime  = 60 * 5f;
     float crossfadeAmount       = 1f / crossfadeTime;
     float crossfadeVolumeTimer  = 0f;
 
@@ -37,7 +37,10 @@ public class AudioManager : MonoBehaviour {
     int variHalfLength  = 3;
     bool isMusicTrackA  = true;
     int variOffset      = 0;
-    int ambIndex        = 0;
+    int musIndex        = 1;
+    int ambIndex        = 1;
+
+    float[] trackVols;
 
 
     // Awake is called before start - ininitialize sounds
@@ -49,6 +52,11 @@ public class AudioManager : MonoBehaviour {
 
             // AudioManager exists across multiple scenes
             DontDestroyOnLoad(gameObject);
+
+            // Music volumes
+            trackVols = new float[6];
+            trackVols[0] = 1f;
+            trackVols[1] = 0f;
         }
         else {
             Destroy(gameObject);
@@ -113,11 +121,14 @@ public class AudioManager : MonoBehaviour {
         // Update which track and variation are playing
         musicTrack  = mus_name;
         musicVar    = vari;
+        crossfadeVolumeTimer = crossfadeTime;
 
 
         // Iterate through each varition of the current music track
         //for (int i = variOffset; i < variHalfLength + variOffset; i++) {
-            int i = 0 + variOffset;
+            //int i = 0 + variOffset;
+            musIndex = 1 - musIndex;
+            ambIndex = 1 - ambIndex;
 
             // Find music tracks for each variation
             Sound music = Array.Find(musicTracks, x => x.name == mus_name); // + "_" + vari
@@ -130,10 +141,10 @@ public class AudioManager : MonoBehaviour {
             //ambientSource.Stop();
 
             // Play
-            musicSources[i].clip   = music.clip;
-            musicSources[i].loop   = music.loop;
-            musicSources[i].volume = music.volume * musicVolume;
-            musicSources[i].Play();
+            musicSources[musIndex].clip   = music.clip;
+            musicSources[musIndex].loop   = music.loop;
+            musicSources[musIndex].volume = music.volume * musicVolume * trackVols[musIndex];
+            musicSources[musIndex].Play();
         //}
 
         // Don't play again if it's the same ambience track
@@ -161,7 +172,7 @@ public class AudioManager : MonoBehaviour {
 
         ambientSources[ambIndex].clip   = amb.clip;
         ambientSources[ambIndex].loop   = amb.loop;
-        ambientSources[ambIndex].volume = amb.volume * musicVolume;
+        ambientSources[ambIndex].volume = amb.volume * musicVolume * trackVols[ambIndex];
         ambientSources[ambIndex].Play();
     }
 
@@ -205,19 +216,24 @@ public class AudioManager : MonoBehaviour {
 
         // All music sources
         foreach (AudioSource varSource in musicSources) {
+            /*
             if (varSource.volume > 0)
                 varSource.volume = musicVolume;
             varSource.volume = 0f;
+            */
+            varSource.volume = musicVolume * trackVols[musIndex];
         }
 
         // All music sources
+        /*
         for (int i = 0; i < 2 * variHalfLength; i++) {
             musicSources[i].volume = musicVolume;
         }
+        */
 
         // Ambience sources
-        ambientSources[0].volume = musicVolume;
-        ambientSources[1].volume = musicVolume;
+        ambientSources[0].volume = musicVolume * trackVols[musIndex];
+        ambientSources[1].volume = musicVolume * trackVols[musIndex];
     }
 
 
@@ -237,14 +253,48 @@ public class AudioManager : MonoBehaviour {
         ambientSources[1].mute = !ambientSources[1].mute;
     }
 
-
-
     // Every frame - used for crossfading volume
-   public void Update() {
+    public void Update() {
 
-        // Crossfade volume
-        if (crossfadeVolumeTimer > 0) {
+      // Crossfade volume
+      if (crossfadeVolumeTimer > 0) {
 
+          /*
+          for (int i = 0; i < variArrayLength; i++) {
+              /*
+              if (varSource.volume > 0)
+                  varSource.volume = musicVolume;
+              varSource.volume = 0f;
+              * /
+              varSource.volume = musicVolume * trackVols[musIndex];
+          }
+          */
+
+          AudioSource trackA = musicSources[musIndex];
+          AudioSource trackB = musicSources[1 - musIndex];
+
+          AudioSource ambA = ambientSources[ambIndex];
+          AudioSource ambB = ambientSources[1 - ambIndex];
+
+          if (trackVols[musIndex] < 1)
+              trackVols[musIndex] += crossfadeAmount;
+
+          if (trackVols[1 - musIndex] > 0)
+              trackVols[1 - musIndex] -= crossfadeAmount;
+          else {
+              trackB.Stop();
+              ambB.Stop();
+          }
+
+          trackA.volume = musicVolume * trackVols[musIndex];
+          trackB.volume = musicVolume * trackVols[1 - musIndex];
+          ambA.volume = musicVolume * trackVols[musIndex];
+          ambB.volume = musicVolume * trackVols[1 - musIndex];
+
+
+          crossfadeVolumeTimer--;
+
+            /*
             // Iterate through each variaition of the current music track
             for (int i = 0; i < variArrayLength; i++) {
                 AudioSource musVarTrack = musicSources[musicVar];
@@ -281,6 +331,7 @@ public class AudioManager : MonoBehaviour {
                 if (crossfadeVolumeTimer == 1)
                     ambTrack2.Stop();
             }
+        */
         }
     }
 }
