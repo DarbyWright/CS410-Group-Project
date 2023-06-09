@@ -220,7 +220,7 @@ MonoBehaviour:
     volume: 0.75
     pitch: 1
   - name: CreditScene
-    clip: {fileID: 8300000, guid: 738463ea7f3c0ef4d89949270485aa15, type: 3}
+    clip: {fileID: 8300000, guid: 3c043e469c0a84884ba020a21e986030, type: 3}
     loop: 0
     harmonize: 0
     volume: 0.151
