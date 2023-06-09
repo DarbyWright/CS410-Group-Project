@@ -21,13 +21,11 @@ public class SpikeTrigger : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (moveObject) // Extend
+        if (moveObject) // Extend 
         {
-            Invoke("SpikeDelay", 0.3f);
-        }
-        else { // Retract
-            Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
-            audioManager.PlaySFX("SFX_SpikeRetract");
+            moveObject = false;
+            Invoke("SpikeExtend", 0.25f);
+            
         }
         
         // Check if extended
@@ -39,10 +37,17 @@ public class SpikeTrigger : MonoBehaviour
         }
     }
 
-    void SpikeDelay()
+    void SpikeExtend()
     {
         audioManager.PlaySFX("SFX_SpikeExtend");
         Spikes.transform.position = Vector3.Lerp(RetractPosition.position, ExtendPosition.position, 1000);
+        Invoke("SpikeRetract", 1.5f);
+    }
+
+    void SpikeRetract()
+    {
+        audioManager.PlaySFX("SFX_SpikeRetract");
+        Spikes.transform.position = Vector3.Lerp(ExtendPosition.position, RetractPosition.position, 1000);
     }
 
     void OnTriggerEnter(Collider other)
@@ -50,8 +55,10 @@ public class SpikeTrigger : MonoBehaviour
         // If collided with
         if (other.gameObject.CompareTag("Player"))
         {
-            moveObject = true;
-            extendedDuration = extendedDurationMax;
+            if (extendedDuration <= 0) {
+                moveObject = true;
+                extendedDuration = extendedDurationMax;
+            }
         }
     }
 }

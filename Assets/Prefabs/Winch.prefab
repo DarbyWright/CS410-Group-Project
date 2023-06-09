@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 9189149838009522337}
   - component: {fileID: 8901203585418316129}
   - component: {fileID: 6510171431118581206}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Box Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
