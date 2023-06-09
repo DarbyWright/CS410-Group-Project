@@ -164,14 +164,13 @@ public class GameManager : MonoBehaviour {
         switch (currentScene)
         {
             case 2:
-                hasDoubleJump = hasDoubleJump && finishedCave;
+                hasDoubleJump = finishedCave;
                 break;
             case 3:
-                hasDash = hasDash && finishedMine;
+                hasDash = finishedMine;
                 break;
             case 4:
-                Debug.Log("Has Glide: " + hasGlide + "Got Canyon: " + finishedCanyon);
-                hasGlide = hasGlide && finishedCanyon;
+                hasGlide = finishedCanyon;
                 break;
         }
     }

@@ -699,7 +699,6 @@ namespace StarterAssets
                 }
                 ParticleSystem geyser_PS = other.GetComponent<ParticleSystem>(); 
                 geyser_PS.Play();
-                Debug.Log("Geyser activated");
             }
 
             // Death and Respawning
@@ -752,7 +751,7 @@ namespace StarterAssets
             // Complete Level 1
             if (other.gameObject.CompareTag("Complete_Level1")) 
             {
-                gameManager.GotCave();
+                gameManager.finishedCave = true;
                 Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
@@ -762,7 +761,7 @@ namespace StarterAssets
             // Complete Level 2
             if (other.gameObject.CompareTag("Complete_Level2")) 
             {
-                gameManager.GotMine();
+                gameManager.finishedMine = true;
                 Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
@@ -772,7 +771,7 @@ namespace StarterAssets
             // Complete Level 3
             if (other.gameObject.CompareTag("Complete_Level3")) 
             {
-                gameManager.GotCanyon();
+                gameManager.finishedCanyon = true;
                 Destroy(other.gameObject);
                 // Item Jingle
                 if (audioManager != null)
