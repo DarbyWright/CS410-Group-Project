@@ -228,12 +228,12 @@ MonoBehaviour:
     pitch: 1
   sfxSource: {fileID: 1528540342}
   musicSources:
-  - {fileID: 1547531666}
-  - {fileID: 1547531665}
-  - {fileID: 1547531664}
-  - {fileID: 1547531663}
-  - {fileID: 1547531662}
+  - {fileID: 1547531660}
   - {fileID: 1547531661}
+  - {fileID: 1547531662}
+  - {fileID: 1547531663}
+  - {fileID: 1547531664}
+  - {fileID: 1547531665}
   ambientSources:
   - {fileID: 1547531666}
   - {fileID: 719175}
@@ -921,11 +921,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: a299bba978dbc43599d3f10f0d43c67d, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

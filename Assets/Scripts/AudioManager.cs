@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour {
     int variHalfLength  = 3;
     bool isMusicTrackA  = true;
     int variOffset      = 0;
-    int ambIndex        = 1;
+    int ambIndex        = 0;
 
 
     // Awake is called before start - ininitialize sounds
@@ -133,14 +133,11 @@ public class AudioManager : MonoBehaviour {
             musicSources[i].clip   = music.clip;
             musicSources[i].loop   = music.loop;
             musicSources[i].volume = music.volume * musicVolume;
-            Debug.Log(music.clip + " " + music.loop + " " + music.volume);
+            //Debug.Log(music.clip + " " + music.loop + " " + music.volume);
             //musicSources[i].pitch  = 2f;// + 2/3f;
-            Debug.Log(mus_name + " play " + variOffset);
+            //Debug.Log(mus_name + " play " + variOffset);
             musicSources[i].Play();
         //}
-
-        // Ambient tracks for some reason override the msuic, so disabled for now
-        return;
 
         // Don't play again if it's the same ambience track
         if (ambTrack == amb_name) {
@@ -149,7 +146,7 @@ public class AudioManager : MonoBehaviour {
         }
 
         // Switch ambience track
-        ambIndex = 1 - ambIndex;
+        //ambIndex = 1 - ambIndex;
 
         // Find ambience track
         Sound amb = Array.Find(ambientTracks, x => x.name == amb_name);
@@ -161,8 +158,7 @@ public class AudioManager : MonoBehaviour {
         ambientSources[ambIndex].clip   = amb.clip;
         ambientSources[ambIndex].loop   = amb.loop;
         ambientSources[ambIndex].volume = amb.volume * musicVolume;
-        //ambientSources[ambIndex].Play();
-        ambientSources[ambIndex].PlayOneShot(amb.clip, amb.volume * musicVolume);
+        ambientSources[ambIndex].Play();
     }
 
     // Stop a sound effect
@@ -177,8 +173,6 @@ public class AudioManager : MonoBehaviour {
 
         sfxSource.Stop();
     }
-
-
 
 
     // Change the variation of a music track
