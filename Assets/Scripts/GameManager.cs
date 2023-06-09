@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
 
         // Game start
         inGame = true;
-        hash = new Hash128();
+        var hash = new Hash128();
 
         // Get UI
         //if (UI == null)
