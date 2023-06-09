@@ -214,26 +214,15 @@ public class AudioManager : MonoBehaviour {
     public void MusicVolume(float volume) {
         musicVolume = volume;
 
-        // All music sources
-        foreach (AudioSource varSource in musicSources) {
-            /*
-            if (varSource.volume > 0)
-                varSource.volume = musicVolume;
-            varSource.volume = 0f;
-            */
-            varSource.volume = musicVolume * trackVols[musIndex];
-        }
+        AudioSource trackA = musicSources[musIndex];
+        AudioSource trackB = musicSources[1 - musIndex];
+        AudioSource ambA = ambientSources[ambIndex];
+        AudioSource ambB = ambientSources[1 - ambIndex];
 
-        // All music sources
-        /*
-        for (int i = 0; i < 2 * variHalfLength; i++) {
-            musicSources[i].volume = musicVolume;
-        }
-        */
-
-        // Ambience sources
-        ambientSources[0].volume = musicVolume * trackVols[musIndex];
-        ambientSources[1].volume = musicVolume * trackVols[musIndex];
+        trackA.volume = musicVolume * trackVols[musIndex];
+        trackB.volume = musicVolume * trackVols[1 - musIndex];
+        ambA.volume = musicVolume * trackVols[musIndex];
+        ambB.volume = musicVolume * trackVols[1 - musIndex];
     }
 
 
