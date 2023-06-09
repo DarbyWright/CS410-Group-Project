@@ -196,10 +196,10 @@ MonoBehaviour:
     volume: 0.5
     pitch: 1
   - name: Level_3
-    clip: {fileID: 8300000, guid: a0c6f8ce9510b4ad6b7dceb43c83ea99, type: 3}
+    clip: {fileID: 8300000, guid: 49cbc858d27eb42bbb90fe02f344095b, type: 3}
     loop: 1
     harmonize: 0
-    volume: 0.75
+    volume: 0.25
     pitch: 1
   - name: TitleScreen
     clip: {fileID: 8300000, guid: 01fda6720ffce45aeabddea2072057ff, type: 3}
