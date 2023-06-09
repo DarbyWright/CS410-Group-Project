@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour {
     public bool finishedMine = false;
     public bool finishedCanyon = false;
 
+    public bool winCondition = false;
+
     // UI
     public TextMeshProUGUI DeathCount;
     public TextMeshProUGUI TotalTime;
@@ -75,6 +77,10 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (finishedCave && finishedMine && finishedCanyon) {
+            print("Winning");
+            winCondition = true;
+        }
 
         // Add to time if "in game"
         if (inGame)
