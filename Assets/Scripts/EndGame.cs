@@ -1,12 +1,13 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour
 {
     GameManager gameManager;
     FadeInOut fade;
-    float winScreenDuration = 3f;
+    float winScreenDuration = 12f;
     bool startEndSequence = false;
     public Canvas winScreen; 
 
@@ -31,7 +32,7 @@ public class EndGame : MonoBehaviour
     public IEnumerator FinishGame(){
         fade.FadeIn();
         yield return new WaitForSeconds(fade.timeToFade);
-        Application.Quit();
+        SceneManager.LoadScene(5);
     }
 
     private void OnTriggerEnter(Collider other) {

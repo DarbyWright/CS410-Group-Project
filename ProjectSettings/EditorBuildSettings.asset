@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 3 (Canyon).unity
     guid: 8d69ae2a8d2454c64ab23a95532df017
+  - enabled: 1
+    path: Assets/Scenes/End Credits.unity
+    guid: 578079bff8ec243e7a9299415894d1eb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}
