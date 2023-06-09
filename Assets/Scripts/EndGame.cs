@@ -24,7 +24,7 @@ public class EndGame : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
             if (gameManager.winCondition == true) {
-                ChangeScene(0);
+                StartCoroutine(ChangeScene(5));
             }
         }
     }
