@@ -104,8 +104,8 @@ MonoBehaviour:
     harmonize: 0
     volume: 1
     pitch: 1
-  - name: SFX_Geyser_3
-    clip: {fileID: 8300000, guid: 87d786fe3e12949a68b48c632adf627b, type: 3}
+  - name: SFX_Geyser_4
+    clip: {fileID: 8300000, guid: 612372522879aec4c99405723d3a6d70, type: 3}
     loop: 0
     harmonize: 0
     volume: 1

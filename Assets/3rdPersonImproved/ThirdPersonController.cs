@@ -681,11 +681,21 @@ namespace StarterAssets
                 Destroy(other.gameObject);
             }
 
+            if (other.gameObject.CompareTag("SpawnSetter")) {
+                float x = other.gameObject.transform.position.x;
+                float y = other.gameObject.transform.position.y;
+                float z = other.gameObject.transform.position.z;
+
+                // Only set checkpoint if this is a differnet one (for sound or animation if we want)
+                if (!(x == respawnPos.x && y == respawnPos.y && z == respawnPos.z))
+                    SetCheckPoint(x, y, z, false);
+            }
+
             // Geysers
             if (other.gameObject.CompareTag("Geyser")) {
                 _verticalVelocity = 50f;
                 if (audioManager != null) {
-                    audioManager.PlaySFX("SFX_Geyser_3");
+                    audioManager.PlaySFX("SFX_Geyser_4");
                 }
                 ParticleSystem geyser_PS = other.GetComponent<ParticleSystem>(); 
                 geyser_PS.Play();
